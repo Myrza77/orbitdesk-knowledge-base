@@ -10,10 +10,11 @@ internal knowledge base export, but the principle -- classify against a
 fixed set, never free text -- is the same.
 """
 import csv
+import os
 import psycopg2
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
-SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "bitext_customer_support.csv")
 
 CLASS_NAMES = {
     'ACCOUNT': 'Account', 'CANCEL': 'Cancellations', 'CONTACT': 'Contact & Escalation',

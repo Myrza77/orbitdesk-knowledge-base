@@ -9,12 +9,13 @@ re-run this, and the demos reflect it.
 """
 import csv
 import json
+import os
 import random
 from collections import defaultdict
 
 random.seed(5)
-EXPORT_DIR = "/home/claude/orbitdesk-knowledge-base/export"
-OUT_DIR = "/home/claude/orbitdesk-knowledge-base/demo/gen"
+EXPORT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "export")
+OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen")
 import os
 os.makedirs(OUT_DIR, exist_ok=True)
 

@@ -11,6 +11,7 @@ next script's job, kept separate on purpose so the bug and its fix are
 both visible as their own steps, same as they were in the real project.
 """
 import csv
+import os
 import random
 import re
 from datetime import datetime, timedelta
@@ -20,7 +21,7 @@ import psycopg2
 random.seed(7)
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
-SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "bitext_customer_support.csv")
 
 BAD_WORD_PAT = re.compile(r'(fuck|shit|damn|\bass\b|asshole|bitch|crap|bastard)', re.I)  # no \b before the root -- catches compounds like 'goddamn' that a leading boundary misses
 

@@ -10,6 +10,7 @@ the real project's Uncategorized bucket had -- ~26% of real volume there,
 deliberately not force-fit into existing categories.
 """
 import csv
+import os
 import random
 import re
 
@@ -18,7 +19,7 @@ import psycopg2
 random.seed(11)
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
-SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
+SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "bitext_customer_support.csv")
 
 BAD_WORD_PAT = re.compile(r'(fuck|shit|damn|\bass\b|asshole|bitch|crap|bastard)', re.I)  # no \b before the root -- catches compounds like 'goddamn' that a leading boundary misses
 

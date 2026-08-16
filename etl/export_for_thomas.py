@@ -17,7 +17,7 @@ import csv
 import psycopg2
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
-OUT_DIR = "/home/claude/orbitdesk-knowledge-base/export"
+OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "export")
 
 import os
 os.makedirs(OUT_DIR, exist_ok=True)
