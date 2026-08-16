@@ -11,13 +11,42 @@ same architecture and same methodology, rebuilt end-to-end on the public
 [Bitext Customer Support dataset](https://github.com/bitext/customer-support-llm-chatbot-training-dataset)
 (CDLA-Sharing-1.0) instead of any real client's data.
 
-## What's actually here
+## Two demos, one taxonomy, one pipeline
 
 ```
 sql/    -- warehouse schema, category seeding, dedup, article content, rollup views
 etl/    -- Python: loading, classification, scoring, export
-demo/   -- the agent scorecard UI, wired to the pipeline's own export
+demo/   -- both UI demos, wired to the pipeline's own export
+  manager-scorecard-demo.html      -- Overall score -> class -> instruction drill-down
+  knowledge-base-editor-demo.html  -- Classes -> Instructions -> Edit, 4.1/4.2/Tickets
+  content/legal_content.py         -- 29 hand-written KB articles (see below)
 ```
+
+Both demos read from the same 29-category taxonomy and the same pipeline export --
+not two disconnected prototypes on different data.
+
+### The knowledge base editor's 4 statuses, and an honest problem with reusing them here
+
+The original project's "Law" status checked instruction text against real Kyrgyz tax
+law. Bitext's e-commerce categories don't have an equivalent regulatory text baked
+into the dataset -- I checked the actual response text before assuming otherwise, and
+even the "policy"-sounding categories (refund policy, cancellation fee) turned out to
+just be scripts telling the customer to go look the policy up, not the policy itself.
+
+So for this rebuild, each of the 29 categories' "Law" status is backed by one of two
+honestly-labeled sources, visible as a badge in the UI:
+
+- **External regulation** (11 categories) -- a real, verified international law or
+  regulation. Citations were checked against primary/reputable sources before
+  writing, not recalled from memory: Directive 2011/83/EU (EU Consumer Rights,
+  withdrawal/refund/delivery), GDPR Art. 15/16/17/21(2), PSD2 (Strong Customer
+  Authentication), ePrivacy Directive Art. 13 (marketing consent).
+- **Internal policy** (18 categories) -- OrbitDesk's own invented internal policy,
+  for a fictional company, written for demo completeness where no real regulation
+  applies (e.g. password recovery has no "law" -- it's just a procedure).
+
+Run `git log --oneline` -- this shows up as its own step, not silently folded into
+"translated the old file."
 
 Run `git log --oneline` — the commit history *is* the project narrative:
 schema → seed data → load → **fix a snapshot-inflation bug** → classify →
