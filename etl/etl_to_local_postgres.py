@@ -34,9 +34,12 @@ def fake_client():
     return f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}"
 
 
-def load_source_rows(limit_per_intent=45):
+def load_source_rows(limit_per_intent=200):
     """Sample a manageable, realistic-scale subset per intent instead of
-    all ~1000 rows/intent -- a demo warehouse, not a full 27k-row dump."""
+    all ~1000 rows/intent -- a demo warehouse, not a full 27k-row dump.
+    (Raised from an initial 45 -> 200 after the first pass showed most
+    agents averaging well under the MIN_SAMPLE=15 threshold per category --
+    not enough volume to demonstrate real per-category scores broadly.)"""
     rows = list(csv.DictReader(open(SRC, encoding='utf-8')))
     by_intent = {}
     for r in rows:
