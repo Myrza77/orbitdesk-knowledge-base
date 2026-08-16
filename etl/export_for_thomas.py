@@ -13,13 +13,12 @@ These are what the two demo HTML files' embedded data is built from
 not a separate hand-authored dataset.
 """
 import csv
-
+import os
 import psycopg2
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "export")
 
-import os
 os.makedirs(OUT_DIR, exist_ok=True)
 
 
