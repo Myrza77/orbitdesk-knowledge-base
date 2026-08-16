@@ -11,6 +11,7 @@ deliberately not force-fit into existing categories.
 """
 import csv
 import random
+import re
 
 import psycopg2
 
@@ -18,6 +19,12 @@ random.seed(11)
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
 SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
+
+BAD_WORD_PAT = re.compile(r'\b(fuck\w*|shit\w*|damn\w*|ass|asshole\w*|bitch\w*|crap\w*|bastard\w*)\b', re.I)
+
+
+def is_clean(row):
+    return not (BAD_WORD_PAT.search(row['instruction']) or BAD_WORD_PAT.search(row['response']))
 
 FIRST_NAMES = ['Daniel', 'Priya', 'Marco', 'Elena', 'Chidi', 'Sofia', 'Liam', 'Noor', 'Hiro', 'Grace']
 LAST_NAMES = ['Reyes', 'Kapoor', 'Bianchi', 'Novak', 'Okafor', 'Alves', 'Byrne', 'Haddad', 'Sato', 'Murphy']
@@ -29,6 +36,7 @@ def fake_client():
 
 def main():
     rows = list(csv.DictReader(open(SRC, encoding='utf-8')))
+    rows = [r for r in rows if is_clean(r)]
     # pull from the two broadest, most miscellaneous-sounding intents --
     # a reasonable stand-in for "tickets that don't fit a narrow category"
     candidates = [r for r in rows if r['intent'] in ('complaint', 'contact_customer_service')]

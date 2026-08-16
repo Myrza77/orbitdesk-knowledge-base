@@ -12,6 +12,7 @@ both visible as their own steps, same as they were in the real project.
 """
 import csv
 import random
+import re
 from datetime import datetime, timedelta
 
 import psycopg2
@@ -20,6 +21,18 @@ random.seed(7)
 
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
 SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
+
+BAD_WORD_PAT = re.compile(r'\b(fuck\w*|shit\w*|damn\w*|ass|asshole\w*|bitch\w*|crap\w*|bastard\w*)\b', re.I)
+
+
+def is_clean(row):
+    """Hard filter, applied at ingestion -- not a preference applied
+    later. A colloquial-register tag in the source dataset can carry
+    profanity; this is checked before a row ever reaches the warehouse,
+    not patched afterward at export time. (An earlier pass skipped this
+    at the ETL step and let 20 matches slip through downstream into the
+    generated demo data -- fixed here at the actual entry point.)"""
+    return not (BAD_WORD_PAT.search(row['instruction']) or BAD_WORD_PAT.search(row['response']))
 
 AGENTS = ["aigerim", "bermet", "cholpon", "svetlana77", "sokolov"]
 AGENT_WEIGHTS = [0.40, 0.20, 0.18, 0.05, 0.17]  # mirrors real coverage skew
@@ -41,6 +54,7 @@ def load_source_rows(limit_per_intent=200):
     agents averaging well under the MIN_SAMPLE=15 threshold per category --
     not enough volume to demonstrate real per-category scores broadly.)"""
     rows = list(csv.DictReader(open(SRC, encoding='utf-8')))
+    rows = [r for r in rows if is_clean(r)]
     by_intent = {}
     for r in rows:
         by_intent.setdefault(r['intent'], []).append(r)
