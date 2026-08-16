@@ -13,7 +13,7 @@ const CLASSES = [
   {id:"contact", name:"Contact & Escalation", items:[
     {id:"contact_customer_service", name:"Contact customer service", traffic:200},
     {id:"contact_human_agent", name:"Contact human agent", traffic:200},
-    {id:"support_hours_inquiry", name:"Support hours inquiry", traffic:19},
+    {id:"support_hours_inquiry", name:"Support hours inquiry", traffic:17},
   ]},
   {id:"delivery", name:"Delivery", items:[
     {id:"delivery_options", name:"Delivery options", traffic:200},
@@ -21,7 +21,7 @@ const CLASSES = [
   ]},
   {id:"feedback", name:"Feedback", items:[
     {id:"complaint", name:"Complaint", traffic:200},
-    {id:"formal_complaint_filing", name:"Formal complaint filing", traffic:32},
+    {id:"formal_complaint_filing", name:"Formal complaint filing", traffic:26},
     {id:"review", name:"Review", traffic:200},
   ]},
   {id:"invoice", name:"Invoicing", items:[

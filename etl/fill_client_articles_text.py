@@ -21,7 +21,7 @@ import psycopg2
 DB = dict(host="localhost", dbname="orbitdesk", user="postgres", password="postgres")
 SRC = "/home/claude/bitext-data/data/Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv"
 
-BAD_WORD_PAT = re.compile(r'\b(fuck\w*|shit\w*|damn\w*|ass|asshole\w*|bitch\w*|crap\w*|bastard\w*)\b', re.I)
+BAD_WORD_PAT = re.compile(r'(fuck|shit|damn|\bass\b|asshole|bitch|crap|bastard)', re.I)  # no \b before the root -- catches compounds like 'goddamn' that a leading boundary misses
 
 
 def is_clean(row):
