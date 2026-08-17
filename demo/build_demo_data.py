@@ -2,7 +2,7 @@
 build_demo_data.py
 
 Builds the CLASSES / MANAGERS / ARTICLES JS blocks for both demo HTML
-files directly from export/*.csv -- the output of export_for_thomas.py.
+files directly from export/*.csv -- the output of export.py.
 This is the step that makes the demos downstream of the pipeline instead
 of a separately hand-authored dataset: change the pipeline, re-export,
 re-run this, and the demos reflect it.

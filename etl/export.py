@@ -1,5 +1,5 @@
 """
-export_for_thomas.py
+export.py
 
 Final pipeline step: exports the state of the warehouse into flat CSVs --
 the same handoff format the real project used to pass data from the
