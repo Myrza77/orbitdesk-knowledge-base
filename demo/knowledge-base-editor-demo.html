@@ -4,19 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OrbitDesk Knowledge Base -- editor demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-    --accent:#5B4FE5;
-    --accent-soft:#F1EEFF;
-    --accent-soft-border:#DCD4FF;
-    --ok:#16A34A; --ok-bg:#ECFDF3;
-    --warn:#D97706; --warn-bg:#FFFBEB;
-    --bad:#DC2626; --bad-bg:#FEF2F2;
-    --div:#7C3AED; --div-bg:#F3EBFF; --div-border:#DFC9FF;
-    --muted:#9CA3AF; --muted-bg:#F3F4F6;
-    --text:#111827; --text2:#6B7280; --text3:#9CA3AF;
-    --border:#E5E7EB; --bg-side:#F8F8FB; --bg:#FFFFFF;
-    --radius:10px;
+    --accent:#C2410C;
+    --accent-soft:#FDEEE4;
+    --accent-soft-border:#F6CBA8;
+    --ok:#15803D; --ok-bg:#EEFBF3;
+    --warn:#B45309; --warn-bg:#FFF7ED;
+    --bad:#B91C1C; --bad-bg:#FEF2F2;
+    --div:#7C3AED; --div-bg:#F5F0FF; --div-border:#DDD0FA;
+    --muted:#A79C8E; --muted-bg:#F4F1EC;
+    --text:#2B2622; --text2:#736A5F; --text3:#A79C8E;
+    --border:#EDE6DC; --bg-side:#FBF7F1; --bg:#FFFDFB;
+    --radius:16px;
+    --shadow-sm:0 1px 2px rgba(43,38,34,.06);
+    --shadow-md:0 10px 30px rgba(43,38,34,.10);
   }
   *{box-sizing:border-box;}
   body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--text); background:var(--bg); font-size:13.5px; line-height:1.5;}
@@ -24,7 +29,7 @@
   .topbar{display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--border); flex-wrap:wrap; flex:none;}
   .topbar h1{font-size:16px; margin:0; font-weight:700; white-space:nowrap;}
   .topbar .sub{color:var(--text2); font-size:12.5px; margin-right:auto;}
-  .demo-banner{background:var(--warn-bg); color:#92600A; border:1px solid #FDE7B8; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:600;}
+  .demo-banner{background:var(--warn-bg); color:#92600A; border:1px solid #FDE7B8; border-radius:11px; padding:4px 10px; font-size:12px; font-weight:600;}
 
   .col{flex:0 0 300px; width:300px; border-right:1px solid var(--border); overflow-y:auto; padding:16px; min-height:0;}
   .col.grow{flex:1 1 0; width:auto; min-width:340px;}
@@ -35,7 +40,7 @@
   .breadcrumb a{color:var(--accent); cursor:pointer; text-decoration:none; font-weight:600;}
   .breadcrumb .sep{color:var(--text3);}
 
-  .row-item{display:flex; align-items:center; gap:8px; padding:10px 10px; border-radius:8px; cursor:pointer; margin-bottom:4px; border:1px solid transparent;}
+  .row-item{display:flex; align-items:center; gap:8px; padding:10px 10px; border-radius:11px; cursor:pointer; margin-bottom:4px; border:1px solid transparent;}
   .row-item:hover{background:#F5F4FF;}
   .row-item.selected{background:var(--accent-soft); border-color:var(--accent-soft-border);}
   .row-item .name{flex:1; font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
@@ -45,7 +50,7 @@
   .dot.ok{background:var(--ok);} .dot.warn{background:var(--warn);}
   .dot.bad{background:var(--bad);} .dot.muted{background:var(--muted);}
   .class-sub{font-size:11px; color:var(--text3); margin-top:1px;}
-  .flag{font-size:10px; font-weight:800; color:var(--bad); background:var(--bad-bg); border:1px solid #FBD5D5; border-radius:6px; padding:1px 6px; flex:none;}
+  .flag{font-size:10px; font-weight:800; color:var(--bad); background:var(--bad-bg); border:1px solid #FBD5D5; border-radius:9px; padding:1px 6px; flex:none;}
 
   .quick-switch{display:flex; gap:5px; flex-wrap:wrap; margin-bottom:12px;}
   .qs-pill{border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:11.5px; cursor:pointer; background:#fff;}
@@ -54,7 +59,7 @@
   .qs-pill .soon{font-style:italic; font-size:10px;}
 
   .badges{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
-  .badge{border-radius:8px; padding:7px 10px; font-size:11.5px; border:1px solid var(--border); flex:1; min-width:110px;}
+  .badge{border-radius:11px; padding:7px 10px; font-size:11.5px; border:1px solid var(--border); flex:1; min-width:110px;}
   .badge .label{color:var(--text2); font-size:10px; display:block; margin-bottom:2px;}
   .badge .val{font-weight:700; font-size:14px;}
   .badge.ok{background:var(--ok-bg); border-color:#BBF0CE;} .badge.ok .val{color:var(--ok);}
@@ -63,24 +68,24 @@
   .badge.muted{background:var(--muted-bg); border-color:var(--border);} .badge.muted .val{color:var(--text2);}
   .card{border:1px solid var(--border); border-radius:var(--radius); padding:14px; margin-bottom:14px; background:#fff;}
   .card .card-title{font-size:11.5px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.03em; margin-bottom:8px;}
-  .btn{background:var(--accent); color:#fff; border:none; border-radius:8px; padding:7px 12px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap;}
+  .btn{background:var(--accent); color:#fff; border:none; border-radius:11px; padding:7px 12px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap;}
   .btn.secondary{background:#fff; color:var(--accent); border:1px solid var(--accent-soft-border);}
   .btn.ghost{background:transparent; color:var(--text2); border:1px solid var(--border);}
   .btn.sm{padding:5px 9px; font-size:11.5px;}
   .empty-note{color:var(--text2); font-size:12.5px;}
-  .tag-mini{font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px; flex:none;}
+  .tag-mini{font-size:9px; font-weight:700; padding:1px 5px; border-radius:7px; flex:none;}
   .tag-mini.muted-tag{background:var(--muted-bg); color:var(--text2); font-weight:600;}
 
   .ad-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
   .ad-header .ad-title{font-size:14px; font-weight:700;}
   .ad-header .ad-sub{font-size:12px; color:var(--text2); margin-top:2px;}
-  .ad-close{border:1px solid var(--border); background:#fff; border-radius:8px; width:30px; height:30px; cursor:pointer; font-size:14px; color:var(--text2); flex:none;}
+  .ad-close{border:1px solid var(--border); background:#fff; border-radius:11px; width:30px; height:30px; cursor:pointer; font-size:14px; color:var(--text2); flex:none;}
 
   .mgr-switch{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;}
   .mgr-pill{border:1px solid var(--border); border-radius:999px; padding:6px 12px; font-size:12px; cursor:pointer; background:#fff; display:flex; align-items:center; gap:6px;}
   .mgr-pill.current{background:var(--accent); color:#fff; border-color:var(--accent);}
   .mgr-pill .agg{font-weight:800;}
-  .mgr-scope-note{background:var(--bg-side); border:1px dashed var(--border); border-radius:8px; padding:8px 10px; font-size:11px; color:var(--text2); margin-bottom:12px;}
+  .mgr-scope-note{background:var(--bg-side); border:1px dashed var(--border); border-radius:11px; padding:8px 10px; font-size:11px; color:var(--text2); margin-bottom:12px;}
   .mgr-agg{display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:14px; border-radius:var(--radius); border:1px solid var(--border);}
   .mgr-agg.ok{background:var(--ok-bg); border-color:#BBF0CE;}
   .mgr-agg.warn{background:var(--warn-bg); border-color:#FDE7B8;}
@@ -93,19 +98,19 @@
   .mgr-agg.warn .num{color:var(--warn);}
   .mgr-agg.muted .num{color:var(--text2);}
   .mgr-tiles{display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
-  .mgr-tile{border:1px solid var(--border); border-radius:9px; padding:10px 12px; cursor:pointer; background:#fff;}
+  .mgr-tile{border:1px solid var(--border); border-radius:12px; padding:10px 12px; cursor:pointer; background:#fff;}
   .mgr-tile:hover{background:#F9FAFB;}
   .mgr-tile.selected{border-color:var(--accent); background:var(--accent-soft);}
   .mgr-tile .mt-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
   .mgr-tile .mt-label{font-size:12.5px; font-weight:700;}
   .mgr-tile .mt-pct{font-size:14px; font-weight:800;}
   .mgr-tile .mt-pct.ok{color:var(--ok);} .mgr-tile .mt-pct.warn{color:var(--warn);} .mgr-tile .mt-pct.bad{color:var(--bad);} .mgr-tile .mt-pct.muted{color:var(--text3);}
-  .mgr-bar{height:6px; border-radius:4px; background:var(--muted-bg); overflow:hidden;}
-  .mgr-bar-fill{height:100%; border-radius:4px;}
+  .mgr-bar{height:6px; border-radius:7px; background:var(--muted-bg); overflow:hidden;}
+  .mgr-bar-fill{height:100%; border-radius:7px;}
   .mgr-bar-fill.ok{background:var(--ok);} .mgr-bar-fill.warn{background:var(--warn);} .mgr-bar-fill.bad{background:var(--bad);}
   .mgr-tile .mt-n{font-size:10.5px; color:var(--text3); margin-top:4px;}
   .mgr-dialog-list{display:flex; flex-direction:column; gap:8px; margin-bottom:14px;}
-  .mgr-dialog-item{border:1px solid var(--border); border-radius:8px; padding:10px 12px; cursor:pointer; background:#fff;}
+  .mgr-dialog-item{border:1px solid var(--border); border-radius:11px; padding:10px 12px; cursor:pointer; background:#fff;}
   .mgr-dialog-item:hover{background:#F9FAFB;}
   .mgr-dialog-item.selected{border-color:var(--accent); background:var(--accent-soft);}
   .mgr-dialog-item .mdi-top{display:flex; justify-content:space-between; font-size:11.5px; color:var(--text2); margin-bottom:4px;}
@@ -114,7 +119,7 @@
 
   /* ===== карточка менеджера — стиль взят с реального скрина CRM ===== */
   .wrap{max-width:720px; margin:0 auto; padding:22px 20px 60px; width:100%;}
-  .mgr-card-v2{background:#fff; border:1px solid var(--border); border-radius:18px; padding:18px 20px; box-shadow:0 1px 2px rgba(16,24,40,.04);}
+  .mgr-card-v2{background:#fff; border:1px solid var(--border); border-radius:21px; padding:18px 20px; box-shadow:0 1px 2px rgba(16,24,40,.04);}
   .mgr-card-top{display:flex; align-items:flex-start; gap:12px;}
   .avatar{width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,#9B8CFB,var(--accent)); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; flex:none;}
   .mgr-id-block .name{font-size:16px; font-weight:700; line-height:1.25;}
@@ -127,14 +132,14 @@
   .mgr-stats-row{display:flex; margin-top:16px; padding-top:14px; border-top:1px solid var(--border);}
   .mgr-stat{flex:1; text-align:center; padding:0 8px; border-right:1px solid var(--border);}
   .mgr-stat:last-child{border-right:none;}
-  .mgr-stat.clickable{cursor:pointer; border-radius:10px; padding-top:2px; padding-bottom:2px; transition:.12s;}
+  .mgr-stat.clickable{cursor:pointer; border-radius:13px; padding-top:2px; padding-bottom:2px; transition:.12s;}
   .mgr-stat.clickable:hover{background:var(--bg-side);}
   .mgr-stat .stat-val{font-size:19px; font-weight:800; color:var(--text);}
   .mgr-stat .stat-val .ok{color:var(--ok);} .mgr-stat .stat-val .warn{color:var(--warn);} .mgr-stat .stat-val .bad{color:var(--bad);} .mgr-stat .stat-val .muted{color:var(--text3);}
   .mgr-stat .stat-lbl{font-size:11.5px; color:var(--text2); margin-top:3px;}
   .mgr-stat .chev{font-size:10px; color:var(--text3); margin-left:2px;}
   .activity-chart{position:relative; height:34px; margin:18px 4px 6px; border-bottom:1px solid var(--border);}
-  .activity-bar{position:absolute; bottom:0; height:16px; background:var(--accent); border-radius:6px 6px 0 0; opacity:.85;}
+  .activity-bar{position:absolute; bottom:0; height:16px; background:var(--accent); border-radius:9px 6px 0 0; opacity:.85;}
   .activity-axis{display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin:0 4px;}
   .clients-toggle{text-align:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); font-size:13px; color:var(--text2); font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;}
   .clients-toggle:hover{color:var(--accent);}
@@ -144,73 +149,172 @@
   .col.grow.standalone{border:1px solid var(--border); border-right:1px solid var(--border); border-radius:var(--radius); min-width:0;}
 
   /* ===== additions for the knowledge base editor (Section 3 / 4.1 / bell / alert) ===== */
-  .topbar{display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid var(--border); flex-wrap:wrap;}
-  .topbar h1{font-size:16px; margin:0; font-weight:700; white-space:nowrap;}
+  body{ background:var(--bg-side); }
+  .topbar{display:flex; align-items:center; gap:12px; padding:14px 22px; border-bottom:1px solid var(--border); flex-wrap:wrap; background:#fff;}
+  .topbar h1{font-size:16px; margin:0; font-weight:700; white-space:nowrap; letter-spacing:-.01em;}
   .topbar .sub{color:var(--text2); font-size:12.5px; margin-right:auto;}
-  .demo-banner{background:var(--warn-bg); color:#92600A; border:1px solid #FDE7B8; border-radius:8px; padding:4px 10px; font-size:12px; font-weight:600;}
+  .demo-banner{background:var(--warn-bg); color:#92600A; border:1px solid #FDE7B8; border-radius:11px; padding:4px 10px; font-size:12px; font-weight:600;}
   .warn-bg{background:#FFFBEB;} .warn{color:#D97706;}
-  .app-wrap{max-width:1180px; margin:0 auto; padding:20px;}
+  .app-wrap{max-width:1180px; margin:0 auto; padding:22px;}
 
   .bell-wrap{position:relative;}
-  .bell-btn{width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:15px; position:relative;}
-  .bell-badge{position:absolute; top:-4px; right:-4px; background:var(--bad); color:#fff; font-size:10px; font-weight:800; border-radius:8px; padding:1px 5px;}
-  .bell-panel{position:absolute; right:0; top:42px; width:340px; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.12); padding:14px; z-index:20;}
+  .bell-btn{width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:15px; position:relative; transition:border-color .15s ease, box-shadow .15s ease;}
+  .bell-btn:hover{border-color:var(--accent-soft-border); box-shadow:0 0 0 3px var(--accent-soft);}
+  .bell-badge{position:absolute; top:-4px; right:-4px; background:var(--bad); color:#fff; font-size:10px; font-weight:800; border-radius:11px; padding:1px 5px;}
+  .bell-panel{position:absolute; right:0; top:42px; width:340px; background:#fff; border:1px solid var(--border); border-radius:15px; box-shadow:0 12px 32px rgba(17,24,39,.14); padding:14px; z-index:20;}
   .bell-panel h4{margin:0 0 4px; font-size:13px;}
   .bell-panel .sub{font-size:11.5px; color:var(--text2); margin-bottom:10px;}
   .digest-row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border-soft); font-size:12.5px;}
   .digest-row:last-child{border-bottom:none;}
   .digest-count{font-weight:700; color:var(--accent);}
-  .digest-action{margin-top:10px; font-size:11.5px; color:var(--text2); background:var(--bg-side); border-radius:8px; padding:8px 10px;}
+  .digest-action{margin-top:10px; font-size:11.5px; color:var(--text2); background:var(--bg-side); border-radius:11px; padding:8px 10px;}
 
-  .alert-banner{background:var(--warn-bg); border:1px solid #FDE7B8; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:12.5px; color:#92600A; display:flex; align-items:center; gap:10px; cursor:pointer;}
-  .alert-banner:hover{filter:brightness(0.98);}
+  .alert-banner{background:var(--warn-bg); border:1px solid #FDE7B8; border-radius:13px; padding:10px 14px; margin-bottom:14px; font-size:12.5px; color:#92600A; display:flex; align-items:center; gap:10px; cursor:pointer; transition:box-shadow .15s ease;}
+  .alert-banner:hover{box-shadow:0 2px 10px rgba(217,119,6,.15);}
   .alert-banner b{font-weight:700;}
   .alert-banner .go{margin-left:auto; color:var(--accent); font-weight:700; white-space:nowrap;}
 
-  .kb-cols{display:grid; grid-template-columns:230px 260px 1fr; gap:14px; align-items:start;}
+  .kb-cols{display:grid; grid-template-columns:230px 260px 1fr; gap:16px; align-items:start;}
   .kb-cols.collapsed{grid-template-columns:1fr 1fr;}
-  .kb-col{background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; max-height:640px; overflow-y:auto;}
+  .kb-col{background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; max-height:640px; overflow-y:auto; box-shadow:0 1px 2px rgba(16,24,40,.03);}
   .kb-col.hide{display:none;}
-  .kb-col-head{padding:11px 14px; font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid var(--border-soft); background:var(--bg-side); position:sticky; top:0;}
-  .kb-item{padding:10px 14px; font-size:13px; border-bottom:1px solid var(--border-soft); cursor:pointer;}
+  .kb-col-head{padding:11px 14px; font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:.05em; font-weight:700; border-bottom:1px solid var(--border-soft); background:var(--bg-side); position:sticky; top:0;}
+  .kb-item{padding:10px 14px; font-size:13px; border-bottom:1px solid var(--border-soft); border-left:3px solid transparent; cursor:pointer; transition:background .12s ease, border-color .12s ease;}
+  .kb-item:last-child{border-bottom:none;}
   .kb-item:hover{background:#F9FAFB;}
-  .kb-item.active{background:var(--accent-soft); color:var(--accent); border-left:3px solid var(--accent); font-weight:600;}
+  .kb-item.active{background:var(--accent-soft); color:var(--accent); border-left-color:var(--accent); font-weight:600;}
   .kb-item .kb-item-meta{font-size:10.5px; color:var(--text3); margin-top:2px; font-weight:400;}
   .kb-item.active .kb-item-meta{color:var(--accent);}
 
-  .edit-panel{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:18px;}
-  .edit-title{font-size:15px; font-weight:700; margin-bottom:4px;}
+  .edit-panel{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:0 1px 2px rgba(16,24,40,.03);}
+  .edit-title-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px;}
+  .edit-title{font-size:15.5px; font-weight:700; letter-spacing:-.01em;}
   .edit-traffic{font-size:11.5px; color:var(--text2); margin-bottom:14px;}
-  .chip-row{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
-  .chip{font-size:11.5px; padding:5px 11px; border-radius:16px; border:1px solid var(--border); color:var(--text2); background:#fff; display:flex; align-items:center; gap:5px;}
-  .chip.on{border-color:var(--ok); color:var(--ok); background:var(--ok-bg);}
-  .source-badge{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:6px;}
+  .chip-row{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; align-items:center;}
+  .chip{font-size:11.5px; padding:5px 11px; border-radius:19px; border:1px solid var(--border); color:var(--text2); background:#fff; display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:600; transition:border-color .12s ease, background .12s ease;}
+  .chip:hover{border-color:var(--accent-soft-border);}
+  .chip.ok{border-color:var(--ok); color:var(--ok); background:var(--ok-bg);}
+  .chip.warn{border-color:#FDE7B8; color:var(--warn); background:var(--warn-bg);}
+  .chip.unk{border-color:var(--border); color:var(--text2); background:#fff;}
+  .chip.active{outline:2px solid var(--accent); outline-offset:1px;}
+  .chip-detail-box{background:var(--bg-side); border:1px solid var(--border); border-radius:11px; padding:10px 12px; font-size:12px; color:var(--text2); margin-bottom:12px; line-height:1.5;}
+  .source-badge{font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:9px;}
   .source-badge.external{background:var(--ok-bg); color:var(--ok); border:1px solid #BBF0CE;}
   .source-badge.internal{background:var(--muted-bg); color:var(--text2); border:1px solid var(--border);}
-  .legal-note{font-size:12px; color:var(--text2); background:var(--bg-side); border-radius:8px; padding:9px 11px; margin-bottom:12px; line-height:1.5;}
-  .edit-body{font-size:12.5px; color:var(--text); line-height:1.7; padding:12px; background:var(--bg-side); border-radius:8px; margin-bottom:14px;}
+  .legal-note{font-size:12px; color:var(--text2); background:var(--bg-side); border-radius:11px; padding:9px 11px; margin-bottom:12px; line-height:1.5;}
+
+  /* inline pointers inside the edit panel -- divergence (🔀) and manager-pattern (👥) alerts */
+  .alert{border-radius:13px; padding:9px 12px; font-size:12px; margin-bottom:12px; border:1px solid;}
+  .alert.div{background:var(--div-bg); border-color:var(--div-border); color:#4C1D95;}
+  .alert.dup{background:var(--bad-bg); border-color:#FBD5D5; color:#9B1C1C;}
+  .alert.compact{cursor:pointer; font-weight:700; transition:filter .12s ease;}
+  .alert.compact:hover{filter:brightness(0.97);}
+
+  /* Law statement list (4.1 panel + chip detail) */
+  .legal-mini{padding:8px 0; border-top:1px dashed var(--border); display:flex; align-items:flex-start; gap:8px; flex-wrap:wrap;}
+  .legal-mini:first-child{border-top:none;}
+  .legal-mini .txt{flex:1; min-width:160px; font-size:12px; color:var(--text);}
+  .verdict{font-size:10px; font-weight:700; padding:2px 6px; border-radius:8px; margin-right:5px; white-space:nowrap; flex:none;}
+  .verdict.neverno{background:var(--bad-bg); color:var(--bad);}
+  .verdict.somnitelno{background:var(--warn-bg); color:var(--warn);}
+  .verdict.verno{background:var(--ok-bg); color:var(--ok);}
+
+  /* history + shared-block tabs under the editor */
+  .sec-tabs{display:flex; gap:0; margin-bottom:0; border-bottom:1px solid var(--border);}
+  .sec-tab{border:none; background:transparent; padding:9px 4px; margin-right:16px; font-size:12px; font-weight:600; color:var(--text2); cursor:pointer; border-bottom:2px solid transparent; transition:color .12s ease, border-color .12s ease;}
+  .sec-tab:hover{color:var(--text);}
+  .sec-tab.active{color:var(--accent); border-bottom-color:var(--accent);}
+  .sec-panel{padding-top:12px;}
+  .history-row{padding:10px 0; border-top:1px solid var(--border-soft); display:flex; align-items:flex-start; justify-content:space-between; gap:10px; font-size:12px; color:var(--text2);}
+  .history-row:first-child{border-top:none;}
+  .history-row .hr-text{flex:1;}
+  .history-row .restore-link{color:var(--accent); cursor:pointer; font-size:11px; white-space:nowrap; flex:none; font-weight:600;}
+  .history-row .restore-link:hover{text-decoration:underline;}
+  .hist-diff{margin-top:5px;}
+  .hist-diff summary{font-size:11px; color:var(--accent); cursor:pointer; list-style:none;}
+  .hist-diff summary::-webkit-details-marker{display:none;}
+  .diff-box{font-size:11.5px; background:var(--bg-side); border:1px solid var(--border); border-radius:9px; padding:8px 10px; margin-top:6px; line-height:1.6;}
+  del{color:#B91C1C; background:#FEE2E2; text-decoration:line-through; padding:0 1px; border-radius:6px;}
+  ins{color:#166534; background:#DCFCE7; text-decoration:none; padding:0 1px; border-radius:6px;}
+  .shared-block-panel .used-in{font-size:11px; color:var(--text2); margin-top:8px;}
+  .shared-block-panel .used-in a{color:var(--accent); cursor:pointer; text-decoration:none; font-weight:600;}
+  .shared-block-panel .used-in a:hover{text-decoration:underline;}
+
+  /* status pill: draft vs published, same visual language as the manager scorecard's status-pill-online */
+  .status-pill{display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:999px; flex:none; white-space:nowrap;}
+  .status-pill.pub{background:var(--ok-bg); color:var(--ok);}
+  .status-pill.draft{background:var(--warn-bg); color:#92600A;}
+
+  /* editable instruction text -- replaces the old read-only .edit-body div */
+  .editor-shell{border:1px solid var(--border); border-radius:13px; overflow:hidden; margin-bottom:8px; transition:border-color .15s ease, box-shadow .15s ease;}
+  .editor-shell.dirty{border-color:var(--accent-soft-border); box-shadow:0 0 0 3px var(--accent-soft);}
+  .editor-toolbar{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 12px; background:var(--bg-side); border-bottom:1px solid var(--border); font-size:11px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.03em;}
+  .editor-toolbar .editor-hint{font-size:10.5px; font-weight:400; text-transform:none; letter-spacing:0; color:var(--text3); text-align:right;}
+  .editor-textarea{display:block; width:100%; min-height:170px; border:none; outline:none; resize:vertical; font-family:inherit; font-size:12.5px; line-height:1.7; color:var(--text); padding:12px; background:#fff;}
+  .editor-textarea:focus{background:#fff;}
+  .save-row{display:flex; align-items:center; gap:8px; margin-bottom:14px; min-height:28px; flex-wrap:wrap;}
+  .save-row .save-status{font-size:11.5px; color:var(--text3);}
+  .save-row .save-status.ok{color:var(--ok); font-weight:600;}
+  .draft-banner{display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--warn-bg); border:1px solid #FDE7B8; color:#92600A; border-radius:11px; padding:9px 12px; margin-bottom:14px; font-size:12px; font-weight:600;}
+  .draft-banner .btns{display:flex; gap:6px; flex:none;}
+
   .entry-btns{display:flex; gap:8px; flex-wrap:wrap;}
-  .entry-btn{flex:1; min-width:150px; font-family:inherit; font-size:12px; font-weight:600; padding:10px 12px; border-radius:9px; border:1px solid var(--border); background:#fff; color:var(--text); cursor:pointer; text-align:left;}
-  .entry-btn:hover{border-color:var(--accent);}
+  .entry-btn{flex:1; min-width:150px; font-family:inherit; font-size:12px; font-weight:600; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff; color:var(--text); cursor:pointer; text-align:left; transition:border-color .15s ease, box-shadow .15s ease, transform .1s ease;}
+  .entry-btn:hover{border-color:var(--accent); box-shadow:0 2px 8px rgba(91,79,229,.1);}
+  .entry-btn:active{transform:translateY(1px);}
   .entry-btn .sub2{display:block; font-size:10px; color:var(--text3); font-weight:400; margin-top:2px;}
   .kb-slot{margin-top:14px;}
 
-  .ai-panel .match-row{display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:12px 14px; border-radius:10px; background:var(--bg-side);}
+  .ai-panel .match-row{display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:12px 14px; border-radius:13px; background:var(--bg-side);}
   .ai-panel .match-num{font-size:24px; font-weight:800;}
   .compare-grid{display:grid; grid-template-columns:1fr; gap:10px;}
-  .compare-item{border:1px solid var(--border); border-radius:9px; padding:10px 12px;}
+  .compare-item{border:1px solid var(--border); border-radius:12px; padding:10px 12px;}
   .compare-item .label{font-size:10px; text-transform:uppercase; color:var(--text3); font-weight:700; margin-bottom:4px;}
   .compare-item .val{font-size:12.5px; line-height:1.5;}
   .compare-item.q{background:var(--accent-soft);}
   .compare-item.etalon{background:var(--ok-bg); border-color:#BBF0CE;}
 
+  /* general polish: consistent focus rings + hover transitions across reused controls */
+  .btn, .btn.secondary, .btn.ghost{transition:filter .12s ease, box-shadow .12s ease, transform .1s ease;}
+  .btn:hover{filter:brightness(1.06);}
+  .btn.secondary:hover, .btn.ghost:hover{background:var(--accent-soft);}
+  .btn:active{transform:translateY(1px);}
+  .qs-pill{transition:background .12s ease, color .12s ease, border-color .12s ease;}
+  .qs-pill:not(.current):not(.disabled):hover{border-color:var(--accent-soft-border); background:var(--accent-soft);}
+
+/* ===== warm/friendly modernization pass ===== */
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; font-size:14px;}
+a{color:var(--accent); text-decoration:none;}
+a:hover{color:#9A3412;}
+.card{box-shadow:var(--shadow-sm); background:var(--bg);}
+.btn{box-shadow:0 1px 2px rgba(43,38,34,.1); transition:filter .12s ease, box-shadow .15s ease, transform .1s ease;}
+.btn:hover{filter:brightness(1.05); box-shadow:0 3px 10px rgba(194,65,12,.25);}
+.btn:active{transform:translateY(1px);}
+.btn.secondary, .btn.ghost{box-shadow:none;}
+.btn.secondary:hover, .btn.ghost:hover{background:var(--accent-soft);}
+.qs-pill, .mgr-pill{transition:background .12s ease, border-color .12s ease, color .12s ease;}
+.qs-pill:not(.current):not(.disabled):hover, .mgr-pill:not(.current):hover{border-color:var(--accent-soft-border); background:var(--accent-soft);}
+.row-item:hover{background:var(--accent-soft);}
+.mgr-tile:hover, .mgr-dialog-item:hover, .kb-item:hover{background:var(--bg-side);}
+.avatar{background:linear-gradient(135deg,#F0956A,var(--accent)); box-shadow:0 2px 8px rgba(194,65,12,.25);}
+.mgr-card-v2{box-shadow:var(--shadow-md); border-radius:20px;}
+.badge.ok, .mgr-agg.ok{border-color:#BEE3CB;}
+.badge.warn, .mgr-agg.warn, .demo-banner, .draft-banner{border-color:#F5D9AE;}
+.badge.bad, .mgr-agg.bad, .autofail-banner{border-color:#F2C3C3;}
+.demo-banner, .draft-banner{color:#8A4B12;}
+.autofail-banner{color:#8A2020;}
+.alert.dup{color:#8A2020;}
+.alert.div{color:#5B21B6;}
+.brand-mark{width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,#F0956A,var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex:none; letter-spacing:0;}
+.topbar h1{display:flex; align-items:center; gap:10px;}
+.entry-btn:hover{box-shadow:0 3px 12px rgba(194,65,12,.12);}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topbar">
-    <h1>📚 OrbitDesk Knowledge Base</h1>
-    <span class="sub">Classes → Instructions → Edit · 4.1 AI Analysis ↔ 4.2 Agent Analysis ↔ Tickets, one slot at a time</span>
+    <h1><span class="brand-mark">OD</span>OrbitDesk Knowledge Base</h1>
+    <span class="sub">Classes → Instructions → Edit · AI Analysis ↔ Agent Analysis ↔ Tickets, one slot at a time</span>
     <span class="demo-banner">Demo · 29 categories, sample data derived from the public Bitext dataset + hand-written knowledge base content</span>
     <div class="bell-wrap">
       <button class="bell-btn" onclick="toggleBell()">🔔<span class="bell-badge" id="bellBadge"></span></button>
@@ -222,232 +326,929 @@
 
 <script>
 const CLASSES = [
-  {id:"account", name:"Account", items:[
-    {
-      id:"create_account", name:"Create account", traffic:200, match:100,
-      text:"New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records.",
-      sourceType:"internal",
-      legalStatement:"Account creation follows OrbitDesk's internal identity-verification standard (email confirmation required before first order).",
-      example:{q:"I have not signed up yet, how to create a {{Account Type}} account?", ai:"New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records.", mgr:"find information about opening {{Account Type}} accounts", etalon:"New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records."},
-    },
-    {
-      id:"delete_account", name:"Delete account", traffic:200, match:100,
-      text:"Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes.",
-      sourceType:"external",
-      legalStatement:"Deletion requests are handled under GDPR Article 17 (right to erasure) -- data is erased without undue delay unless a legal retention obligation applies.",
-      example:{q:"how can I cancel a freemium account?", ai:"Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes.", mgr:"i need information about the cancellation of a gold acocunt", etalon:"Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes."},
-    },
-    {
-      id:"edit_account", name:"Edit account", traffic:200, match:100,
-      text:"Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult.",
-      sourceType:"external",
-      legalStatement:"Rectification requests are handled under GDPR Article 16 -- corrections are actioned without undue delay.",
-      example:{q:"editing standard  account", ai:"Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult.", mgr:"updating details on platinum account", etalon:"Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult."},
-    },
-    {
-      id:"recover_password", name:"Recover password", traffic:200, match:100,
-      text:"Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard.",
-      sourceType:"internal",
-      legalStatement:"Password recovery follows OrbitDesk's internal account-security standard (agent-assisted resets are never performed directly).",
-      example:{q:"I need assistance to restore the password of my user account", ai:"Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard.", mgr:"could I retrieve the access key of my profile?", etalon:"Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard."},
-    },
-    {
-      id:"registration_problems", name:"Registration problems", traffic:200, match:100,
-      text:"Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange.",
-      sourceType:"internal",
-      legalStatement:"Registration troubleshooting follows OrbitDesk's internal support playbook, not an external regulation.",
-      example:{q:"what do I have to do to report errors with a registration?", ai:"Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange.", mgr:"notifying of problems creating user account", etalon:"Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange."},
-    },
-    {
-      id:"switch_account", name:"Switch account", traffic:200, match:100,
-      text:"Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for.",
-      sourceType:"internal",
-      legalStatement:"Tier-switch timing follows OrbitDesk's internal billing policy.",
-      example:{q:"I want to  use the {{Account Category}} profile, help me", ai:"Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for.", mgr:"i want assistance to use th {{Account Type}} profile", etalon:"Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for."},
-    },
-  ]},
-  {id:"cancel", name:"Cancellations", items:[
-    {
-      id:"check_cancellation_fee", name:"Check cancellation fee", traffic:200, match:100,
-      text:"For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms.",
-      sourceType:"external",
-      legalStatement:"Within the 14-day withdrawal period (Directive 2011/83/EU, Art. 9-16), no cancellation fee applies beyond disclosed return shipping cost.",
-      example:{q:"i need help seeing the early termination charge", ai:"For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms.", mgr:"can you show me the termination fees?", etalon:"For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms."},
-    },
-  ]},
-  {id:"contact", name:"Contact & Escalation", items:[
-    {
-      id:"contact_customer_service", name:"Contact customer service", traffic:200, match:100,
-      text:"Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response.",
-      sourceType:"internal",
-      legalStatement:"Response-time targets are OrbitDesk's internal service standard, not a statutory requirement.",
-      example:{q:"see at what time i can call customer support", ai:"Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response.", mgr:"I want to check at what time customer support available is", etalon:"Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response."},
-    },
-    {
-      id:"contact_human_agent", name:"Contact human agent", traffic:200, match:100,
-      text:"Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves.",
-      sourceType:"internal",
-      legalStatement:"Escalation trigger and context-handoff rule are OrbitDesk's internal support standard.",
-      example:{q:"you aren't helpful at all, talk to an operator", ai:"Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves.", mgr:"what do i have to do to contact an agwnt", etalon:"Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves."},
-    },
-    {
-      id:"support_hours_inquiry", name:"Support hours inquiry", traffic:19, match:100,
-      text:"Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation.",
-      sourceType:"internal",
-      legalStatement:"Support hours are OrbitDesk's internal staffing schedule.",
-      example:{q:"how to see ta what time I can call customer support?", ai:"Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation.", mgr:"will you tell me what hours I can call customer assistance?", etalon:"Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation."},
-    },
-  ]},
-  {id:"delivery", name:"Delivery", items:[
-    {
-      id:"delivery_options", name:"Delivery options", traffic:200, match:100,
-      text:"Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped.",
-      sourceType:"internal",
-      legalStatement:"Which delivery tiers are offered, and their pricing, is a commercial choice, not a regulated matter.",
-      example:{q:"do you deliver to {{Delivery Country}}?", ai:"Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped.", mgr:"I have to check the options for shipping, how could I do it?", etalon:"Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped."},
-    },
-    {
-      id:"delivery_period", name:"Delivery period", traffic:200, match:100,
-      text:"Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay.",
-      sourceType:"external",
-      legalStatement:"Default delivery deadline and the customer's remedy if missed are set by Directive 2011/83/EU, Article 18.",
-      example:{q:"can I check when will my product arrive?", ai:"Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay.", mgr:"help to check how soon can I expect my shipment", etalon:"Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay."},
-    },
-  ]},
-  {id:"feedback", name:"Feedback", items:[
-    {
-      id:"complaint", name:"Complaint", traffic:200, match:100,
-      text:"Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement.",
-      sourceType:"internal",
-      legalStatement:"Complaint intake and acknowledgment timing follow OrbitDesk's internal service standard.",
-      example:{q:"I have to file a consumer complaint against your company", ai:"Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement.", mgr:"i do not know how to lodge a consumer complaint", etalon:"Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement."},
-    },
-    {
-      id:"review", name:"Review", traffic:200, match:100,
-      text:"Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative.",
-      sourceType:"internal",
-      legalStatement:"Review eligibility and moderation policy are set internally by OrbitDesk, not by external regulation.",
-      example:{q:"can you help me tyo send my feedback for a service?", ai:"Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative.", mgr:"do you have a way to leave a review about your company?", etalon:"Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative."},
-    },
-    {
-      id:"formal_complaint_filing", name:"Formal complaint filing", traffic:32, match:100,
-      text:"A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases.",
-      sourceType:"internal",
-      legalStatement:"Internal escalation SLA; the reference to a national consumer authority reflects a general EU consumer right, not a specific cited regulation for this workflow.",
-      example:{q:"filing consumer claim against your business", ai:"A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases.", mgr:"how to file a claim against your organization?", etalon:"A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases."},
-    },
-  ]},
-  {id:"invoice", name:"Invoicing", items:[
-    {
-      id:"check_invoice", name:"Check invoice", traffic:200, match:100,
-      text:"Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts.",
-      sourceType:"internal",
-      legalStatement:"Invoice delivery timing and the identity-verification-before-redirect rule are OrbitDesk's internal billing-security policy.",
-      example:{q:"I do not know what I have to do to check my bill #12588", ai:"Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts.", mgr:"is it possible to locate invoice #37777", etalon:"Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts."},
-    },
-    {
-      id:"get_invoice", name:"Get invoice", traffic:200, match:100,
-      text:"Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice.",
-      sourceType:"internal",
-      legalStatement:"Invoice retention window and reissue turnaround are OrbitDesk's internal record-keeping policy.",
-      example:{q:"get invoice from {{Person Name}}", ai:"Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice.", mgr:"I cannot find my invoice #12588, will you mail it to me?", etalon:"Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice."},
-    },
-  ]},
-  {id:"order", name:"Orders", items:[
-    {
-      id:"cancel_order", name:"Cancel order", traffic:200, match:100,
-      text:"Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping.",
-      sourceType:"external",
-      legalStatement:"Post-shipment cancellation is treated as withdrawal under Directive 2011/83/EU, Art. 9-16 -- no fee beyond disclosed return cost.",
-      example:{q:"I'm trying to cancel purchase {{Order Number}}", ai:"Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping.", mgr:"problem with cancelling purchase {{Order Number}}", etalon:"Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping."},
-    },
-    {
-      id:"change_order", name:"Change order", traffic:200, match:100,
-      text:"Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged.",
-      sourceType:"internal",
-      legalStatement:"The 30-minute edit window before fulfillment is OrbitDesk's internal operations policy.",
-      example:{q:"i cant delete a prodcut from purchase {{Order Number}}", ai:"Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged.", mgr:"I have got to add a product to order {{Order Number}}", etalon:"Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged."},
-    },
-    {
-      id:"place_order", name:"Place order", traffic:200, match:100,
-      text:"Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged.",
-      sourceType:"internal",
-      legalStatement:"Guest-checkout support and the authorize-then-capture payment flow are OrbitDesk's internal checkout design.",
-      example:{q:"I have to purchase several of your item", ai:"Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged.", mgr:"need assistance ordering some of ur item", etalon:"Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged."},
-    },
-    {
-      id:"track_order", name:"Track order", traffic:200, match:100,
-      text:"Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy.",
-      sourceType:"internal",
-      legalStatement:"Tracking availability timing is an operational fact, not a regulated matter.",
-      example:{q:"checking ETA of order {{Order Number}}", ai:"Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy.", mgr:"see ETA ob order {{Order Number}}", etalon:"Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy."},
-    },
-  ]},
-  {id:"payment", name:"Payment", items:[
-    {
-      id:"check_payment_methods", name:"Check payment methods", traffic:200, match:100,
-      text:"OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's.",
-      sourceType:"external",
-      legalStatement:"Card payments from EU/EEA customers require Strong Customer Authentication under PSD2 (Directive (EU) 2015/2366).",
-      example:{q:"want assistance to see your allowed payment options", ai:"OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's.", mgr:"I need help to see the available payment options", etalon:"OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's."},
-    },
-    {
-      id:"payment_issue", name:"Payment issue", traffic:200, match:100,
-      text:"A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason.",
-      sourceType:"external",
-      legalStatement:"Most EU payment declines trace back to PSD2 Strong Customer Authentication failing on the bank side, not to OrbitDesk's checkout.",
-      example:{q:"i need assistance to inform of problems with online payment", ai:"A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason.", mgr:"how can i inform of an error with payment", etalon:"A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason."},
-    },
-  ]},
-  {id:"refund", name:"Refunds", items:[
-    {
-      id:"check_refund_policy", name:"Check refund policy", traffic:200, match:100,
-      text:"For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead.",
-      sourceType:"external",
-      legalStatement:"EU refund eligibility and exceptions are set by Directive 2011/83/EU, Articles 9-16.",
-      example:{q:"I have got to see in which situations can Irequest a refund", ai:"For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead.", mgr:"I want to see in what situations can I ask for my money back", etalon:"For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead."},
-    },
-    {
-      id:"get_refund", name:"Get refund", traffic:200, match:100,
-      text:"Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided.",
-      sourceType:"external",
-      legalStatement:"Refund method and 14-day maximum timing are set by Directive 2011/83/EU, Article 13.",
-      example:{q:"how do I request a compensation of money?", ai:"Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided.", mgr:"i need assistance asking for a compensation of my money", etalon:"Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided."},
-    },
-    {
-      id:"track_refund", name:"Track refund", traffic:200, match:100,
-      text:"Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance.",
-      sourceType:"external",
-      legalStatement:"The 14-day refund-issuance ceiling referenced here is set by Directive 2011/83/EU, Article 13; bank posting time beyond that is outside OrbitDesk's control.",
-      example:{q:"I'm trying to check the status of my compensation", ai:"Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance.", mgr:"I am waiting for an restitution of {{Currency Symbol}}{{Refund Amount}}", etalon:"Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance."},
-    },
-  ]},
-  {id:"shipping", name:"Shipping", items:[
-    {
-      id:"change_shipping_address", name:"Change shipping address", traffic:200, match:100,
-      text:"Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise.",
-      sourceType:"internal",
-      legalStatement:"The pre-shipment cutoff for address changes is OrbitDesk's internal fulfillment policy.",
-      example:{q:"I want support trying to correct my delivery address", ai:"Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise.", mgr:"i have errors modifying my shipping address", etalon:"Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise."},
-    },
-    {
-      id:"set_up_shipping_address", name:"Set up shipping address", traffic:200, match:100,
-      text:"Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates.",
-      sourceType:"internal",
-      legalStatement:"Address validation is OrbitDesk's internal delivery-quality measure.",
-      example:{q:"is it possible to set my shipping address up", ai:"Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates.", mgr:"i have issues submitting another shipping address", etalon:"Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates."},
-    },
-  ]},
-  {id:"subscription", name:"Subscriptions", items:[
-    {
-      id:"newsletter_subscription", name:"Newsletter subscription", traffic:200, match:100,
-      text:"Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle.",
-      sourceType:"external",
-      legalStatement:"Marketing consent and one-click unsubscribe are required by ePrivacy Directive Art. 13 and GDPR Art. 21(2).",
-      example:{q:"I cannot subscribeto the corporate newsletter", ai:"Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle.", mgr:"ineed assistance receiving ur company newsletter", etalon:"Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle."},
-    },
-  ]},
+  {
+    "id": "account",
+    "name": "Account",
+    "items": [
+      {
+        "id": "create_account",
+        "name": "Create account",
+        "traffic": 200,
+        "match": 100,
+        "text": "New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records.",
+        "sourceType": "internal",
+        "legalStatement": "Account creation follows OrbitDesk's internal identity-verification standard (email confirmation required before first order).",
+        "example": {
+          "q": "I have not signed up yet, how to create a {{Account Type}} account?",
+          "ai": "New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records.",
+          "mgr": "find information about opening {{Account Type}} accounts",
+          "etalon": "New accounts require a valid email address and confirmation via a one-time verification link, per OrbitDesk's standard onboarding flow. No purchase or payment method is required to create an account. Duplicate accounts under the same verified email are merged automatically, not created as separate records."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Account creation follows OrbitDesk's internal identity-verification standard (email confirmation required before first order).",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "delete_account",
+        "name": "Delete account",
+        "traffic": 200,
+        "match": 100,
+        "text": "Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes.",
+        "sourceType": "external",
+        "legalStatement": "Deletion requests are handled under GDPR Article 17 (right to erasure) -- data is erased without undue delay unless a legal retention obligation applies.",
+        "example": {
+          "q": "how can I cancel a freemium account?",
+          "ai": "Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes.",
+          "mgr": "i need information about the cancellation of a gold acocunt",
+          "etalon": "Customers may request full account deletion at any time. Under GDPR Article 17 (right to erasure), OrbitDesk must erase the customer's personal data without undue delay once a valid request is received, unless retention is required for an active legal obligation (e.g. unresolved payment dispute, tax record retention period). Order history tied to unresolved disputes is anonymized rather than deleted until the dispute closes."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Deletion requests are handled under GDPR Article 17 (right to erasure) -- data is erased without undue delay unless a legal retention obligation applies.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "edit_account",
+        "name": "Edit account",
+        "traffic": 200,
+        "match": 100,
+        "text": "Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult.",
+        "sourceType": "external",
+        "legalStatement": "Rectification requests are handled under GDPR Article 16 -- corrections are actioned without undue delay.",
+        "example": {
+          "q": "editing standard  account",
+          "ai": "Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult.",
+          "mgr": "updating details on platinum account",
+          "etalon": "Customers can correct inaccurate personal data (name, address, contact details) via account settings at any time. Under GDPR Article 16 (right to rectification), OrbitDesk must action a rectification request without undue delay, and must notify any third party the data was previously shared with, unless that proves impossible or disproportionately difficult."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Rectification requests are handled under GDPR Article 16 -- corrections are actioned without undue delay.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "recover_password",
+        "name": "Recover password",
+        "traffic": 200,
+        "match": 100,
+        "text": "Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard.",
+        "sourceType": "internal",
+        "legalStatement": "Password recovery follows OrbitDesk's internal account-security standard (agent-assisted resets are never performed directly).",
+        "example": {
+          "q": "I need assistance to restore the password of my user account",
+          "ai": "Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard.",
+          "mgr": "could I retrieve the access key of my profile?",
+          "etalon": "Password recovery requires verification via the email address or phone number on file. A time-limited reset link is sent; it expires after 30 minutes for security. Agents can never reset a password directly on a customer's behalf over chat -- this prevents social-engineering account takeover, per OrbitDesk's account security standard."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Password recovery follows OrbitDesk's internal account-security standard (agent-assisted resets are never performed directly).",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "registration_problems",
+        "name": "Registration problems",
+        "traffic": 200,
+        "match": 100,
+        "text": "Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange.",
+        "sourceType": "internal",
+        "legalStatement": "Registration troubleshooting follows OrbitDesk's internal support playbook, not an external regulation.",
+        "example": {
+          "q": "what do I have to do to report errors with a registration?",
+          "ai": "Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange.",
+          "mgr": "notifying of problems creating user account",
+          "etalon": "Common registration failures: email already registered (direct the customer to password recovery instead), verification email not received (check spam folder, resend after 2 minutes), phone verification code expired (codes are valid for 10 minutes, can be resent). Escalate to technical support if none of the above resolves it within one exchange."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Registration troubleshooting follows OrbitDesk's internal support playbook, not an external regulation.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "switch_account",
+        "name": "Switch account",
+        "traffic": 200,
+        "match": 100,
+        "text": "Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for.",
+        "sourceType": "internal",
+        "legalStatement": "Tier-switch timing follows OrbitDesk's internal billing policy.",
+        "example": {
+          "q": "I want to  use the {{Account Category}} profile, help me",
+          "ai": "Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for.",
+          "mgr": "i want assistance to use th {{Account Type}} profile",
+          "etalon": "Account tier changes (e.g. standard to premium) take effect immediately upon confirmation and are prorated for the current billing period. Downgrades take effect at the start of the next billing cycle, not immediately, so the customer keeps the benefits they already paid for."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Tier-switch timing follows OrbitDesk's internal billing policy.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cancel",
+    "name": "Cancellations",
+    "items": [
+      {
+        "id": "check_cancellation_fee",
+        "name": "Check cancellation fee",
+        "traffic": 200,
+        "match": 100,
+        "text": "For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms.",
+        "sourceType": "external",
+        "legalStatement": "Within the 14-day withdrawal period (Directive 2011/83/EU, Art. 9-16), no cancellation fee applies beyond disclosed return shipping cost.",
+        "example": {
+          "q": "i need help seeing the early termination charge",
+          "ai": "For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms.",
+          "mgr": "can you show me the termination fees?",
+          "etalon": "For distance sales to EU consumers, Directive 2011/83/EU gives a 14-day right of withdrawal with no cancellation fee or justification required -- the customer only bears the direct cost of returning goods, and only if OrbitDesk clearly disclosed that cost before purchase. Outside that 14-day window, or for the excluded categories listed in Article 16 (custom/personalized goods, perishables, unsealed hygiene items), a cancellation fee may apply per OrbitDesk's standard terms."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Within the 14-day withdrawal period (Directive 2011/83/EU, Art. 9-16), no cancellation fee applies beyond disclosed return shipping cost.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ],
+        "sharedBlockId": "eu_withdrawal_right"
+      }
+    ]
+  },
+  {
+    "id": "contact",
+    "name": "Contact & Escalation",
+    "items": [
+      {
+        "id": "contact_customer_service",
+        "name": "Contact customer service",
+        "traffic": 200,
+        "match": 100,
+        "text": "Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response.",
+        "sourceType": "internal",
+        "legalStatement": "Response-time targets are OrbitDesk's internal service standard, not a statutory requirement.",
+        "example": {
+          "q": "see at what time i can call customer support",
+          "ai": "Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response.",
+          "mgr": "I want to check at what time customer support available is",
+          "etalon": "Standard support channels are live chat and email, both available during posted support hours. Live chat targets a first response within 5 minutes during business hours; email targets a response within 24 hours. Neither channel guarantees resolution time -- only first response."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Response-time targets are OrbitDesk's internal service standard, not a statutory requirement.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "contact_human_agent",
+        "name": "Contact human agent",
+        "traffic": 200,
+        "match": 100,
+        "text": "Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves.",
+        "sourceType": "internal",
+        "legalStatement": "Escalation trigger and context-handoff rule are OrbitDesk's internal support standard.",
+        "example": {
+          "q": "you aren't helpful at all, talk to an operator",
+          "ai": "Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves.",
+          "mgr": "what do i have to do to contact an agwnt",
+          "etalon": "Any customer who explicitly asks for a human agent, or whose issue the assistant fails to resolve after two exchanges, is escalated immediately -- no forced additional bot interaction. Escalated conversations keep full context (prior messages, order history) so the customer never has to repeat themselves."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Escalation trigger and context-handoff rule are OrbitDesk's internal support standard.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "support_hours_inquiry",
+        "name": "Support hours inquiry",
+        "traffic": 19,
+        "match": 100,
+        "text": "Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation.",
+        "sourceType": "internal",
+        "legalStatement": "Support hours are OrbitDesk's internal staffing schedule.",
+        "example": {
+          "q": "how to see ta what time I can call customer support?",
+          "ai": "Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation.",
+          "mgr": "will you tell me what hours I can call customer assistance?",
+          "etalon": "Live chat and phone support operate Monday-Friday, 09:00-18:00 in the customer's local time zone where available, otherwise UTC. Email support is monitored outside those hours but only actioned during business hours. This is an operational schedule, not a regulated service-level obligation."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Support hours are OrbitDesk's internal staffing schedule.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "delivery",
+    "name": "Delivery",
+    "items": [
+      {
+        "id": "delivery_options",
+        "name": "Delivery options",
+        "traffic": 200,
+        "match": 100,
+        "text": "Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped.",
+        "sourceType": "internal",
+        "legalStatement": "Which delivery tiers are offered, and their pricing, is a commercial choice, not a regulated matter.",
+        "example": {
+          "q": "do you deliver to {{Delivery Country}}?",
+          "ai": "Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped.",
+          "mgr": "I have to check the options for shipping, how could I do it?",
+          "etalon": "Standard delivery (5-7 business days) is included at no extra cost above the order threshold shown at checkout. Express delivery (1-2 business days) is available at checkout for an additional fee, subject to destination and item availability. Delivery option cannot be changed after an order has shipped."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Which delivery tiers are offered, and their pricing, is a commercial choice, not a regulated matter.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "delivery_period",
+        "name": "Delivery period",
+        "traffic": 200,
+        "match": 100,
+        "text": "Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay.",
+        "sourceType": "external",
+        "legalStatement": "Default delivery deadline and the customer's remedy if missed are set by Directive 2011/83/EU, Article 18.",
+        "example": {
+          "q": "can I check when will my product arrive?",
+          "ai": "Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay.",
+          "mgr": "help to check how soon can I expect my shipment",
+          "etalon": "Unless a specific delivery date was agreed at checkout, Directive 2011/83/EU Article 18 requires delivery within 30 days of the order being placed. If that deadline is missed, the customer must be given a reasonable additional period to receive the goods; if delivery still fails, the customer is entitled to cancel the order and receive a full refund without further delay."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Default delivery deadline and the customer's remedy if missed are set by Directive 2011/83/EU, Article 18.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "feedback",
+    "name": "Feedback",
+    "items": [
+      {
+        "id": "complaint",
+        "name": "Complaint",
+        "traffic": 200,
+        "match": 100,
+        "text": "Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement.",
+        "sourceType": "internal",
+        "legalStatement": "Complaint intake and acknowledgment timing follow OrbitDesk's internal service standard.",
+        "example": {
+          "q": "I have to file a consumer complaint against your company",
+          "ai": "Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement.",
+          "mgr": "i do not know how to lodge a consumer complaint",
+          "etalon": "Formal complaints are logged with a reference number and acknowledged within 24 hours. Complaints about a specific order are linked to that order's record. Agents summarize the complaint back to the customer before closing the interaction, to confirm nothing was missed -- this is OrbitDesk's own escalation-quality standard, not a legal requirement."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Complaint intake and acknowledgment timing follow OrbitDesk's internal service standard.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "review",
+        "name": "Review",
+        "traffic": 200,
+        "match": 100,
+        "text": "Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative.",
+        "sourceType": "internal",
+        "legalStatement": "Review eligibility and moderation policy are set internally by OrbitDesk, not by external regulation.",
+        "example": {
+          "q": "can you help me tyo send my feedback for a service?",
+          "ai": "Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative.",
+          "mgr": "do you have a way to leave a review about your company?",
+          "etalon": "Reviews can only be left by customers with a verified completed purchase of that item. Reviews are moderated for spam and abusive language, not for negative sentiment -- a genuine negative review about product quality or delivery is never removed for being negative."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Review eligibility and moderation policy are set internally by OrbitDesk, not by external regulation.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "formal_complaint_filing",
+        "name": "Formal complaint filing",
+        "traffic": 32,
+        "match": 100,
+        "text": "A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases.",
+        "sourceType": "internal",
+        "legalStatement": "Internal escalation SLA; the reference to a national consumer authority reflects a general EU consumer right, not a specific cited regulation for this workflow.",
+        "example": {
+          "q": "filing consumer claim against your business",
+          "ai": "A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases.",
+          "mgr": "how to file a claim against your organization?",
+          "etalon": "A \"formal\" complaint (as distinct from routine feedback) is logged with a case number, assigned an owner, and the customer receives written acknowledgment within 24 hours and a substantive response within 5 business days. If unresolved after that, the customer is informed of their right to escalate to their national consumer protection authority for EU purchases."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Internal escalation SLA; the reference to a national consumer authority reflects a general EU consumer right, not a specific cited regulation for this workflow.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "invoice",
+    "name": "Invoicing",
+    "items": [
+      {
+        "id": "check_invoice",
+        "name": "Check invoice",
+        "traffic": 200,
+        "match": 100,
+        "text": "Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts.",
+        "sourceType": "internal",
+        "legalStatement": "Invoice delivery timing and the identity-verification-before-redirect rule are OrbitDesk's internal billing-security policy.",
+        "example": {
+          "q": "I do not know what I have to do to check my bill #12588",
+          "ai": "Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts.",
+          "mgr": "is it possible to locate invoice #37777",
+          "etalon": "Invoices are available in the customer's account under Order History within 24 hours of shipment, and are also emailed automatically at that time. Agents can resend an invoice to the email on file but cannot redirect an invoice to a different email without identity verification, to prevent billing-fraud attempts."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Invoice delivery timing and the identity-verification-before-redirect rule are OrbitDesk's internal billing-security policy.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "get_invoice",
+        "name": "Get invoice",
+        "traffic": 200,
+        "match": 100,
+        "text": "Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice.",
+        "sourceType": "internal",
+        "legalStatement": "Invoice retention window and reissue turnaround are OrbitDesk's internal record-keeping policy.",
+        "example": {
+          "q": "get invoice from {{Person Name}}",
+          "ai": "Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice.",
+          "mgr": "I cannot find my invoice #12588, will you mail it to me?",
+          "etalon": "Customers can request a reissued copy of any invoice from the last 24 months directly from Order History. Older invoices are archived and require a support request, which is fulfilled within 2 business days. There is no fee for reissuing an invoice."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Invoice retention window and reissue turnaround are OrbitDesk's internal record-keeping policy.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "order",
+    "name": "Orders",
+    "items": [
+      {
+        "id": "cancel_order",
+        "name": "Cancel order",
+        "traffic": 200,
+        "match": 100,
+        "text": "Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping.",
+        "sourceType": "external",
+        "legalStatement": "Post-shipment cancellation is treated as withdrawal under Directive 2011/83/EU, Art. 9-16 -- no fee beyond disclosed return cost.",
+        "example": {
+          "q": "I'm trying to cancel purchase {{Order Number}}",
+          "ai": "Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping.",
+          "mgr": "problem with cancelling purchase {{Order Number}}",
+          "etalon": "Orders not yet shipped can be cancelled instantly with a full refund, no fee. Once shipped, cancellation converts to a return request instead -- covered by the 14-day withdrawal right under Directive 2011/83/EU Art. 9-16, which still applies with no cancellation fee beyond disclosed return shipping."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Post-shipment cancellation is treated as withdrawal under Directive 2011/83/EU, Art. 9-16 -- no fee beyond disclosed return cost.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ],
+        "sharedBlockId": "eu_withdrawal_right"
+      },
+      {
+        "id": "change_order",
+        "name": "Change order",
+        "traffic": 200,
+        "match": 100,
+        "text": "Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged.",
+        "sourceType": "internal",
+        "legalStatement": "The 30-minute edit window before fulfillment is OrbitDesk's internal operations policy.",
+        "example": {
+          "q": "i cant delete a prodcut from purchase {{Order Number}}",
+          "ai": "Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged.",
+          "mgr": "I have got to add a product to order {{Order Number}}",
+          "etalon": "Order contents (items, quantities, shipping address) can be changed only before the order enters the fulfillment queue, typically within 30 minutes of placing it. After that, the change is handled as a cancellation of the original order plus a new order, so the customer is not double-charged."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "The 30-minute edit window before fulfillment is OrbitDesk's internal operations policy.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "place_order",
+        "name": "Place order",
+        "traffic": 200,
+        "match": 100,
+        "text": "Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged.",
+        "sourceType": "internal",
+        "legalStatement": "Guest-checkout support and the authorize-then-capture payment flow are OrbitDesk's internal checkout design.",
+        "example": {
+          "q": "I have to purchase several of your item",
+          "ai": "Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged.",
+          "mgr": "need assistance ordering some of ur item",
+          "etalon": "Orders can be placed as a guest or as a registered account; guest orders can be claimed into an account later using the order confirmation email. Payment is authorized at checkout and captured only once the order enters fulfillment, so a cancelled-before-fulfillment order is never actually charged."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Guest-checkout support and the authorize-then-capture payment flow are OrbitDesk's internal checkout design.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "track_order",
+        "name": "Track order",
+        "traffic": 200,
+        "match": 100,
+        "text": "Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy.",
+        "sourceType": "internal",
+        "legalStatement": "Tracking availability timing is an operational fact, not a regulated matter.",
+        "example": {
+          "q": "checking ETA of order {{Order Number}}",
+          "ai": "Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy.",
+          "mgr": "see ETA ob order {{Order Number}}",
+          "etalon": "Tracking becomes available once the order leaves the warehouse, usually within 1 business day of the order being placed. Tracking status updates lag the carrier's own system by up to a few hours -- if a customer's tracking looks stuck, the underlying carrier status is the source of truth, not OrbitDesk's cached copy."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Tracking availability timing is an operational fact, not a regulated matter.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "payment",
+    "name": "Payment",
+    "items": [
+      {
+        "id": "check_payment_methods",
+        "name": "Check payment methods",
+        "traffic": 200,
+        "match": 100,
+        "text": "OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's.",
+        "sourceType": "external",
+        "legalStatement": "Card payments from EU/EEA customers require Strong Customer Authentication under PSD2 (Directive (EU) 2015/2366).",
+        "example": {
+          "q": "want assistance to see your allowed payment options",
+          "ai": "OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's.",
+          "mgr": "I need help to see the available payment options",
+          "etalon": "OrbitDesk accepts major debit/credit cards, and regional wallets where locally available. All card payments from EU/EEA customers require Strong Customer Authentication (SCA) under PSD2 -- typically a second factor via the customer's bank app or an SMS code. Payments under EUR 30 may be exempted from SCA at the issuing bank's discretion, not OrbitDesk's."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Card payments from EU/EEA customers require Strong Customer Authentication under PSD2 (Directive (EU) 2015/2366).",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "payment_issue",
+        "name": "Payment issue",
+        "traffic": 200,
+        "match": 100,
+        "text": "A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason.",
+        "sourceType": "external",
+        "legalStatement": "Most EU payment declines trace back to PSD2 Strong Customer Authentication failing on the bank side, not to OrbitDesk's checkout.",
+        "example": {
+          "q": "i need assistance to inform of problems with online payment",
+          "ai": "A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason.",
+          "mgr": "how can i inform of an error with payment",
+          "etalon": "A declined payment is usually the issuing bank rejecting Strong Customer Authentication (PSD2), an expired card, or insufficient funds -- OrbitDesk cannot see the specific bank-side reason, only that the charge was declined. Agents should direct the customer to retry with the bank's authentication app open, or to contact their bank directly for the decline reason."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Most EU payment declines trace back to PSD2 Strong Customer Authentication failing on the bank side, not to OrbitDesk's checkout.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "refund",
+    "name": "Refunds",
+    "items": [
+      {
+        "id": "check_refund_policy",
+        "name": "Check refund policy",
+        "traffic": 200,
+        "match": 100,
+        "text": "For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead.",
+        "sourceType": "external",
+        "legalStatement": "EU refund eligibility and exceptions are set by Directive 2011/83/EU, Articles 9-16.",
+        "example": {
+          "q": "I have got to see in which situations can Irequest a refund",
+          "ai": "For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead.",
+          "mgr": "I want to see in what situations can I ask for my money back",
+          "etalon": "For EU consumers, the statutory right of withdrawal (Directive 2011/83/EU, Art. 9-16) gives 14 days from delivery to return most items for a full refund, no reason required. Excluded: custom/personalized items, perishables, and unsealed hygiene products (Art. 16 exceptions). Outside the EU/EEA, OrbitDesk's own 30-day goodwill return policy applies instead."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "EU refund eligibility and exceptions are set by Directive 2011/83/EU, Articles 9-16.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ],
+        "sharedBlockId": "eu_withdrawal_right"
+      },
+      {
+        "id": "get_refund",
+        "name": "Get refund",
+        "traffic": 200,
+        "match": 100,
+        "text": "Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided.",
+        "sourceType": "external",
+        "legalStatement": "Refund method and 14-day maximum timing are set by Directive 2011/83/EU, Article 13.",
+        "example": {
+          "q": "how do I request a compensation of money?",
+          "ai": "Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided.",
+          "mgr": "i need assistance asking for a compensation of my money",
+          "etalon": "Once a valid withdrawal or return is confirmed, Directive 2011/83/EU Article 13 requires the refund to use the same payment method the customer originally used, and to be issued without undue delay -- no later than 14 days after OrbitDesk is notified, though OrbitDesk may withhold the refund until the goods are received back or proof of return is provided."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Refund method and 14-day maximum timing are set by Directive 2011/83/EU, Article 13.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "track_refund",
+        "name": "Track refund",
+        "traffic": 200,
+        "match": 100,
+        "text": "Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance.",
+        "sourceType": "external",
+        "legalStatement": "The 14-day refund-issuance ceiling referenced here is set by Directive 2011/83/EU, Article 13; bank posting time beyond that is outside OrbitDesk's control.",
+        "example": {
+          "q": "I'm trying to check the status of my compensation",
+          "ai": "Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance.",
+          "mgr": "I am waiting for an restitution of {{Currency Symbol}}{{Refund Amount}}",
+          "etalon": "Refunds appear on the customer's original payment method within 3-5 business days after OrbitDesk issues them, though the exact posting time depends on the customer's bank, not OrbitDesk. If more than 14 days have passed since OrbitDesk confirmed the refund was issued, escalate -- that exceeds the Article 13 maximum and needs investigation, not just reassurance."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "The 14-day refund-issuance ceiling referenced here is set by Directive 2011/83/EU, Article 13; bank posting time beyond that is outside OrbitDesk's control.",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shipping",
+    "name": "Shipping",
+    "items": [
+      {
+        "id": "change_shipping_address",
+        "name": "Change shipping address",
+        "traffic": 200,
+        "match": 100,
+        "text": "Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise.",
+        "sourceType": "internal",
+        "legalStatement": "The pre-shipment cutoff for address changes is OrbitDesk's internal fulfillment policy.",
+        "example": {
+          "q": "I want support trying to correct my delivery address",
+          "ai": "Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise.",
+          "mgr": "i have errors modifying my shipping address",
+          "etalon": "Shipping address can be changed only before the order ships. Once shipped, OrbitDesk can request a redirect with the carrier on the customer's behalf, but success is not guaranteed and depends on the carrier's own policy -- this is communicated to the customer as a best-effort request, not a promise."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "The pre-shipment cutoff for address changes is OrbitDesk's internal fulfillment policy.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      },
+      {
+        "id": "set_up_shipping_address",
+        "name": "Set up shipping address",
+        "traffic": 200,
+        "match": 100,
+        "text": "Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates.",
+        "sourceType": "internal",
+        "legalStatement": "Address validation is OrbitDesk's internal delivery-quality measure.",
+        "example": {
+          "q": "is it possible to set my shipping address up",
+          "ai": "Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates.",
+          "mgr": "i have issues submitting another shipping address",
+          "etalon": "Customers can save multiple shipping addresses and choose a default at checkout. Address validation runs automatically against carrier-recognized formats; an address that fails validation is flagged for manual confirmation before the order can be placed, to reduce failed-delivery rates."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Address validation is OrbitDesk's internal delivery-quality measure.",
+            "verdict": "internal"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "subscription",
+    "name": "Subscriptions",
+    "items": [
+      {
+        "id": "newsletter_subscription",
+        "name": "Newsletter subscription",
+        "traffic": 200,
+        "match": 100,
+        "text": "Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle.",
+        "sourceType": "external",
+        "legalStatement": "Marketing consent and one-click unsubscribe are required by ePrivacy Directive Art. 13 and GDPR Art. 21(2).",
+        "example": {
+          "q": "I cannot subscribeto the corporate newsletter",
+          "ai": "Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle.",
+          "mgr": "ineed assistance receiving ur company newsletter",
+          "etalon": "Marketing emails require prior opt-in consent under the ePrivacy Directive Article 13, except for existing customers being informed about similar products (the \"soft opt-in\" exception). Unsubscribing must be at least as easy as subscribing was -- one click, no login required -- per GDPR Article 21(2), and takes effect immediately, not at the end of a billing or campaign cycle."
+        },
+        "generalizationConfirmed": true,
+        "legalStatements": [
+          {
+            "statement": "Marketing consent and one-click unsubscribe are required by ePrivacy Directive Art. 13 and GDPR Art. 21(2).",
+            "verdict": "confirmed"
+          }
+        ],
+        "history": [
+          {
+            "who": "Knowledge base import",
+            "when": "initial export",
+            "note": "Initial published version -- from the pipeline export + hand-written knowledge-base content. Not an edit made in this demo; there is no earlier version to show a diff against."
+          }
+        ]
+      }
+    ]
+  }
 ];
+
+const SHARED_BLOCKS = {
+  "eu_withdrawal_right": {
+    "text": "EU consumers have a 14-day right of withdrawal under Directive 2011/83/EU, Articles 9-16: they may cancel or return most items within 14 days of delivery, for a full refund, without justification, bearing only the disclosed cost of return shipping (if OrbitDesk disclosed that cost before purchase). Excluded under Article 16: custom/personalised goods, perishables, and unsealed hygiene items.",
+    "usedIn": [
+      "check_cancellation_fee",
+      "cancel_order",
+      "check_refund_policy"
+    ]
+  }
+};
+
 
 const MANAGERS = [
   {id:"aigerim", name:"Aigerim", role:"Support Agent", sampleTotal:2196,
@@ -889,7 +1690,7 @@ function managerAnalysisPanelHtml(){
   if(!candidates.length){
     return `<div class="col grow standalone" id="colAnalysis">
       <div class="ad-header">
-        <div><div class="ad-title">4.2 Agent Analysis</div><div class="ad-sub">${cat?cat.name:''}</div></div>
+        <div><div class="ad-title">Agent Analysis</div><div class="ad-sub">${cat?cat.name:''}</div></div>
         <button class="ad-close" onclick="closeAnalysis()">✕</button>
       </div>
       <div class="empty-note">No agent data for this category yet.</div>
@@ -924,10 +1725,10 @@ function managerAnalysisPanelHtml(){
     const open = state.mgrCritIdx === idx;
     const tileAutofail = cm.canAutofail && cr.autofail && (scope.type!=='category' || (cr.autofailCategories||[]).includes(scope.catId));
     let noteText;
-    if(insufficient){ noteText = `insufficient data (n=${nToShow}, threshold ${MIN_SAMPLE})`; }
-    else if(!cm.scoped){ noteText = `n=${nToShow} -- behavioral criterion, overall figure`; }
-    else if(catData){ noteText = `n=${nToShow} for the "${cat.name}" category`; }
-    else { noteText = `n=${nToShow} across all categories -- no data specific to "${cat?cat.name:''}" yet`; }
+    if(insufficient){ noteText = `insufficient data (threshold ${MIN_SAMPLE})`; }
+    else if(!cm.scoped){ noteText = `behavioral criterion, overall figure`; }
+    else if(catData){ noteText = `for the "${cat.name}" category`; }
+    else { noteText = `across all categories -- no data specific to "${cat?cat.name:''}" yet`; }
     return `<div class="mgr-tile ${open?'selected':''}" onclick="selectMgrCrit(${idx})">
       <div class="mt-top">
         <span class="mt-label">${cm.label}${tileAutofail ? ' <span class="tag-mini" style="background:var(--bad-bg);color:var(--bad);">auto-fail</span>' : ''}</span>
@@ -941,7 +1742,7 @@ function managerAnalysisPanelHtml(){
 
   return `<div class="col grow standalone" id="colAnalysis">
     <div class="ad-header">
-      <div><div class="ad-title">4.2 Agent Analysis</div><div class="ad-sub">${cat?cat.name:'All categories'}</div></div>
+      <div><div class="ad-title">Agent Analysis</div><div class="ad-sub">${cat?cat.name:'All categories'}</div></div>
       <button class="ad-close" onclick="closeAnalysis()">\u2715</button>
     </div>
     ${scopeNote}
@@ -957,10 +1758,16 @@ let state = {
   analysisPanel: null,   // null | 'ai' | 'manager' | 'tickets'
   mgrScope: null, mgrSelectedId: null, mgrCritIdx: null, mgrDialogIdx: null,
   bellOpen: false,
+  activeChip: null,      // index of the expanded chip detail box in the edit panel
+  secondaryTab: 'history', // 'history' | 'shared' -- tab under the editor
+  historyOpen: false,
 };
 
 function selectClass(id){ state.classId = id; state.catId = null; state.analysisPanel = null; render(); }
-function selectCat(id){ state.catId = id; state.analysisPanel = null; render(); }
+function selectCat(id){ state.catId = id; state.analysisPanel = null; state.activeChip = null; state.secondaryTab = 'history'; state.historyOpen = false; render(); }
+function toggleChip(i){ state.activeChip = (state.activeChip===i) ? null : i; render(); }
+function setSecondaryTab(tab){ state.secondaryTab = tab; render(); }
+function toggleHistory(){ state.historyOpen = !state.historyOpen; render(); }
 
 function openAnalysisAI(){ state.analysisPanel = 'ai'; render(); }
 function openAnalysisManagerForCategory(catId){
@@ -978,25 +1785,21 @@ function toggleBell(){ state.bellOpen = !state.bellOpen; render(); }
 
 /* ============ alert: 2+ agents independently scored low on the same
    category -- points at the instruction, not the people. Built on the
-   pipeline's real (algorithmically generated, not hand-forced) scores:
-   "review" naturally has 2 agents both under 60% with solid n. ============ */
+   pipeline's real (algorithmically generated, not hand-forced) scores.
+   Generalized to take any catId so the same check can also power the
+   inline pointer inside the edit panel, not just the fixed top banner. ============ */
 const INSTRUCTION_ALERT = { catId: 'review', threshold: 60 };
-function computeAlert(){
-  // Deliberately checks the "Accuracy & criticality" criterion directly,
-  // not the full weighted managerAggregate() score -- the weighted score
-  // mixes in Communication/Speed/Data quality, which run high enough for
-  // most agents to mask a real accuracy problem in the average. The
-  // alert is specifically about whether the instruction itself is
-  // leading agents astray on THIS category, which is an accuracy
-  // question, not a blended one.
+function computeAlertForCategory(catId, threshold){
+  threshold = threshold===undefined ? INSTRUCTION_ALERT.threshold : threshold;
   const rows = MANAGERS.map(m=>{
     const acc = m.criteria.accuracy;
-    const catData = (acc.byCategory||{})[INSTRUCTION_ALERT.catId];
+    const catData = (acc.byCategory||{})[catId];
     if(!catData || catData.n < MIN_SAMPLE) return null;
     return {mgr: m, score: catData.pct};
-  }).filter(r => r && r.score !== null && r.score < INSTRUCTION_ALERT.threshold);
+  }).filter(r => r && r.score !== null && r.score < threshold);
   return rows.length >= 2 ? rows : null;
 }
+function computeAlert(){ return computeAlertForCategory(INSTRUCTION_ALERT.catId, INSTRUCTION_ALERT.threshold); }
 
 /* ============ Uncategorized digest (bell) -- real 47-ticket backlog,
    clustered into named themes, same pattern as the recurring-topic
@@ -1042,42 +1845,334 @@ function instrListHtml(){
   `).join('');
 }
 
+/* ============ small text/diff helpers, ported from the original mockup ============ */
+function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function diffWords(oldStr, newStr){
+  const a = (oldStr||'').split(/(\s+)/), b = (newStr||'').split(/(\s+)/);
+  const n=a.length, m=b.length;
+  const dp = Array.from({length:n+1},()=>new Array(m+1).fill(0));
+  for(let i=n-1;i>=0;i--) for(let j=m-1;j>=0;j--)
+    dp[i][j] = a[i]===b[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  let i=0,j=0,html='';
+  while(i<n && j<m){
+    if(a[i]===b[j]){ html+=escapeHtml(a[i]); i++; j++; }
+    else if(dp[i+1][j] >= dp[i][j+1]){ html+=`<del>${escapeHtml(a[i])}</del>`; i++; }
+    else { html+=`<ins>${escapeHtml(b[j])}</ins>`; j++; }
+  }
+  while(i<n){ html+=`<del>${escapeHtml(a[i])}</del>`; i++; }
+  while(j<m){ html+=`<ins>${escapeHtml(b[j])}</ins>`; j++; }
+  return html;
+}
+// A real, if narrow, auto-scan: flags unresolved template placeholders
+// ({{Order Number}} etc, exactly the tokens visible in the real ticket
+// examples this demo shows in 4.1) or a specific-looking ticket/order
+// number (#12345) left in the *published* instruction text -- both are
+// signs a specific customer's case leaked into what is supposed to be a
+// generalized instruction. It cannot detect every way text could be
+// under-generalized (no scan can); it only catches these two concrete,
+// checkable patterns, and says so in the UI rather than implying more.
+function autoScanClean(text){ return !/\{\{[^}]+\}\}|#\d{3,}/.test(text||''); }
+
+/* ============ instruction text editing --------------------------------
+   The pipeline's CLASSES export is the published, source-of-truth text.
+   EDITS overlays that per-category with an in-session draft/publish
+   state, plus the review flags (generalized / law verdicts) that publishing
+   invalidates -- mirroring the original mockup's draft -> publish flow.
+   Labeled honestly: this demo has no backend, so "publish" here only ever
+   writes into this browser tab's memory, never back to the export CSV or
+   the pipeline. Refreshing the page reverts everything. SESSION_HISTORY
+   is the in-session append-only log publish() writes to, shown alongside
+   each category's real (pre-demo) history entry. ============ */
+const EDITS = {}; // catId -> {published, draft, generalizationConfirmed, legalVerdicts}
+const SESSION_HISTORY = {}; // catId -> [{who, when, note, snapshotText}], newest first
+function publishedText(cat){ const e = EDITS[cat.id]; return (e && e.published !== null && e.published !== undefined) ? e.published : cat.text; }
+function draftText(cat){ const e = EDITS[cat.id]; return (e && e.draft !== null && e.draft !== undefined) ? e.draft : publishedText(cat); }
+function isDraftPending(cat){ const e = EDITS[cat.id]; return !!(e && e.draft !== null && e.draft !== undefined && e.draft !== publishedText(cat)); }
+function ensureEdit(catId){ if(!EDITS[catId]) EDITS[catId] = {published:null, draft:null, generalizationConfirmed:null, legalVerdicts:null}; return EDITS[catId]; }
+function currentGeneralizationConfirmed(cat){ const e = EDITS[cat.id]; return (e && e.generalizationConfirmed !== null && e.generalizationConfirmed !== undefined) ? e.generalizationConfirmed : cat.generalizationConfirmed; }
+function currentLegalStatements(cat){ const e = EDITS[cat.id]; return (e && e.legalVerdicts) ? e.legalVerdicts : cat.legalStatements; }
+function legalStatusFor(cat){
+  const arr = currentLegalStatements(cat);
+  if(!arr || !arr.length) return 'unknown';
+  if(arr.some(s=>s.verdict==='disputed')) return 'bad';
+  if(arr.some(s=>s.verdict==='unverified')) return 'warning';
+  return 'ok'; // 'confirmed' or 'internal' (no external law to verify against)
+}
+function sharedBlockFor(cat){ return cat.sharedBlockId ? SHARED_BLOCKS[cat.sharedBlockId] : null; }
+function historyFor(cat){ return (SESSION_HISTORY[cat.id]||[]).concat(cat.history||[]); }
+
+function onInstructionInput(catId){
+  const cat = findCat(catId);
+  const ta = document.getElementById('editTextarea-'+catId);
+  if(!ta) return;
+  const dirty = ta.value !== draftText(cat);
+  const shell = document.getElementById('editorShell-'+catId);
+  if(shell) shell.classList.toggle('dirty', dirty);
+  const status = document.getElementById('saveStatus-'+catId);
+  if(status){ status.textContent = dirty ? 'Unsaved changes' : 'No unsaved changes'; status.classList.remove('ok'); }
+}
+function saveInstructionDraft(catId){
+  const ta = document.getElementById('editTextarea-'+catId);
+  if(!ta) return;
+  ensureEdit(catId).draft = ta.value;
+  render();
+  const status = document.getElementById('saveStatus-'+catId);
+  if(status){ status.textContent = 'Saved as draft for this session (demo only -- not written back to the pipeline export)'; status.classList.add('ok'); }
+}
+// Publishing does three things, same as the original mockup: (1) writes the
+// new published text, (2) drops the pending draft, (3) invalidates review
+// state that no longer necessarily applies to the new wording -- law
+// verdicts on externally-sourced categories go back to "unverified" and the
+// generalized flag is un-set, both requiring a human (or the auto-scan) to
+// clear them again, instead of silently carrying old approvals over to
+// text nobody has actually re-checked.
+function publishInstructionText(catId){
+  const ta = document.getElementById('editTextarea-'+catId);
+  if(!ta) return;
+  const cat = findCat(catId);
+  const oldText = publishedText(cat);
+  const newText = ta.value;
+  const e = ensureEdit(catId);
+  e.published = newText;
+  e.draft = null;
+  if(newText !== oldText){
+    e.generalizationConfirmed = false;
+    if(cat.sourceType === 'external'){
+      e.legalVerdicts = currentLegalStatements(cat).map(s => ({
+        statement: s.statement,
+        verdict: 'unverified',
+        note: 'Needs re-check -- the instruction text changed since this citation was last confirmed.',
+      }));
+    }
+    if(!SESSION_HISTORY[catId]) SESSION_HISTORY[catId] = [];
+    SESSION_HISTORY[catId].unshift({
+      who: 'You (this session)', when: 'just now',
+      note: 'Published a new version.',
+      snapshotText: oldText,
+    });
+  }
+  state.historyOpen = true;
+  render();
+  const status = document.getElementById('saveStatus-'+catId);
+  if(status){ status.textContent = 'Published for this session (demo only -- not written back to the pipeline export)'; status.classList.add('ok'); }
+}
+function discardInstructionDraft(catId){
+  const e = ensureEdit(catId);
+  e.draft = null;
+  render();
+}
+function restoreVersion(catId, historyIdx){
+  const cat = findCat(catId);
+  const entry = historyFor(cat)[historyIdx];
+  if(!entry || !entry.snapshotText) return;
+  const current = publishedText(cat);
+  const e = ensureEdit(catId);
+  e.published = entry.snapshotText;
+  e.draft = null;
+  if(!SESSION_HISTORY[catId]) SESSION_HISTORY[catId] = [];
+  SESSION_HISTORY[catId].unshift({
+    who: 'You (this session)', when: 'just now',
+    note: `Restored an earlier version (from ${entry.when}).`,
+    snapshotText: current,
+  });
+  state.historyOpen = true;
+  render();
+}
+function confirmGeneralization(catId){ ensureEdit(catId).generalizationConfirmed = true; render(); }
+function confirmLegalStatement(catId, idx){
+  const cat = findCat(catId);
+  const arr = currentLegalStatements(cat).map((s,i)=> i===idx ? {
+    statement: s.statement, verdict: 'confirmed',
+    note: (s.note ? s.note + ' ' : '') + 'Confirmed manually, this session.',
+  } : s);
+  ensureEdit(catId).legalVerdicts = arr;
+  render();
+}
+function saveSharedBlock(blockId, btn){
+  const wrap = btn.closest('.shared-block-panel');
+  const ta = wrap.querySelector('textarea.editor-textarea');
+  SHARED_BLOCKS[blockId].text = ta.value;
+  const status = wrap.querySelector('.save-status');
+  if(status){ status.textContent = 'Updated for this session -- every category using this shared block now shows the new text.'; status.classList.add('ok'); }
+}
+
+/* Same alert mechanics as the top banner (computeAlertForCategory), but
+   surfaced right next to the instruction text for whichever category is
+   currently open -- so you see it exactly where you'd act on it, not just
+   in a global banner for one hardcoded category. */
+function managerPatternPointerHtml(cat){
+  const alert = computeAlertForCategory(cat.id, INSTRUCTION_ALERT.threshold);
+  if(!alert) return '';
+  const names = alert.map(r=>`${r.mgr.name} (${r.score}%)`).join(', ');
+  return `<div class="alert dup compact" onclick="openAnalysisManagerForCategory('${cat.id}')">
+    \ud83d\udc65 ${alert.length} agents independently scored under ${INSTRUCTION_ALERT.threshold}% here (${names}) -- possibly the instruction, not the people. Details in Agent Analysis \u2192
+  </div>`;
+}
+// Word-overlap divergence pointer: only fires below 80% match. Every
+// category in this rebuild currently sits at match:100 (the pipeline's
+// AI-drafted answer and the confirmed reference answer are identical), so
+// in today's data this pointer stays dormant -- it will light up the
+// moment a category's AI-suggested draft and reference answer actually
+// diverge, same trigger condition as in the original mockup.
+function divergencePointerHtml(cat){
+  if(cat.match===null || cat.match===undefined || cat.match>=80) return '';
+  return `<div class="alert div compact" onclick="openAnalysisAI()">
+    \ud83d\udd00 Divergence detected (${cat.match}% match) -- details in AI Analysis \u2192
+  </div>`;
+}
+
 function editPanelHtml(){
   const cat = findCat(state.catId);
   if(!cat) return `<div class="edit-panel"><div style="color:var(--text3); font-size:13px;">Select an instruction from the list to view and edit it.</div></div>`;
   const badgeClass = cat.sourceType === 'external' ? 'external' : 'internal';
   const badgeLabel = cat.sourceType === 'external' ? 'External regulation' : 'Internal policy';
+  const current = draftText(cat);
+  const isDraft = isDraftPending(cat);
+  const statusPill = isDraft
+    ? `<span class="status-pill draft">\ud83d\udfe1 Draft</span>`
+    : `<span class="status-pill pub">\ud83d\udfe2 Published</span>`;
+  const draftBanner = isDraft ? `<div class="draft-banner">
+      <span>Draft differs from the published text (this session only)</span>
+      <span class="btns">
+        <button class="btn sm" onclick="publishInstructionText('${cat.id}')">Publish</button>
+        <button class="btn ghost sm" onclick="discardInstructionDraft('${cat.id}')">Discard draft</button>
+      </span>
+    </div>` : '';
+
+  // ---- chip row: Generalized / Law / Reference answer, each backed by real state ----
+  const clean = autoScanClean(publishedText(cat));
+  const genConfirmed = currentGeneralizationConfirmed(cat);
+  const genState = !clean ? 'warn' : genConfirmed ? 'ok' : 'unk';
+  const genIcon = !clean ? '\u26a0\ufe0f' : genConfirmed ? '\u2705' : '\u2754';
+  const genDetail = !clean
+    ? `Auto-scan found a template placeholder (<code>{{...}}</code>) or a specific-looking ticket/order number in the published text -- that looks like a detail from one real case, not a generalized instruction. Fix the text before this can be marked generalized.`
+    : genConfirmed
+      ? `Confirmed manually -- reviewed and marked as properly generalized.`
+      : `Auto-scan found no leaked placeholders or ticket numbers, but a human still needs to confirm the wording overall.<br><button class="btn sm secondary" style="margin-top:6px;" onclick="confirmGeneralization('${cat.id}')">Mark as generalized</button>`;
+
+  const ls = legalStatusFor(cat);
+  const legalArr = currentLegalStatements(cat) || [];
+  const legalIcon = ls==='ok' ? '\u2705' : ls==='warning' ? '\u26a0\ufe0f' : ls==='bad' ? '\u26a0\ufe0f' : '\u2754';
+  const legalDetail = legalArr.length ? legalArr.map((s,i)=>{
+    const verdictClass = s.verdict==='disputed' ? 'neverno' : s.verdict==='unverified' ? 'somnitelno' : 'verno';
+    return `<div class="legal-mini">
+      <span class="verdict ${verdictClass}">${s.verdict.toUpperCase()}</span>
+      <span class="txt">${s.statement}${s.note?`<div class="legal-note" style="margin:4px 0 0; padding:0; background:none;">${s.note}</div>`:''}</span>
+      ${s.verdict!=='confirmed' && s.verdict!=='internal' ? `<button class="btn sm secondary" onclick="confirmLegalStatement('${cat.id}', ${i})">Confirm</button>` : ''}
+    </div>`;
+  }).join('') : `<div class="empty-note">No law statement recorded for this category.</div>`;
+
+  const etalonOk = etalonConfirmed(cat.id);
+  const chips = [
+    {state: genState, icon: genIcon, label: 'Generalized', detail: genDetail},
+    {state: ls==='ok' ? 'ok' : ls==='unknown' ? 'unk' : 'warn', icon: legalIcon, label: 'Law', detail: legalDetail},
+    {state: etalonOk ? 'ok' : 'unk', icon: etalonOk ? '\u2705' : '\u2754',
+     label: 'Reference answer',
+     detail: etalonOk
+       ? `Confirmed as the reference answer for this category -- see the comparison grid in AI Analysis.`
+       : `Not currently confirmed. <button class="btn sm secondary" style="margin-top:6px;" onclick="toggleEtalon('${cat.id}')">Confirm as reference answer</button>`},
+  ];
+  const chipRow = `<div class="chip-row">
+    ${chips.map((c,i)=>`<span class="chip ${c.state} ${state.activeChip===i?'active':''}" onclick="toggleChip(${i})">${c.icon} ${c.label}</span>`).join('')}
+    <span class="source-badge ${badgeClass}">${badgeLabel}</span>
+  </div>`;
+  const chipDetail = state.activeChip!==null ? `<div class="chip-detail-box">${chips[state.activeChip].detail}</div>` : '';
+
+  // ---- secondary tabs: History / Shared block ----
+  const shared = sharedBlockFor(cat);
+  const history = historyFor(cat);
+  const tabsHtml = `<div class="sec-tabs">
+    <button class="sec-tab ${state.secondaryTab==='history'?'active':''}" onclick="setSecondaryTab('history')">History (${history.length})</button>
+    ${shared ? `<button class="sec-tab ${state.secondaryTab==='shared'?'active':''}" onclick="setSecondaryTab('shared')">\ud83d\udd17 Shared block</button>` : ''}
+  </div>`;
+  let secPanel = '';
+  if(state.secondaryTab==='history' || !shared){
+    secPanel = history.map((h,idx)=>`<div class="history-row">
+      <div class="hr-text">
+        <b>${h.who}</b> \u00b7 ${h.when}<br>${h.note}
+        ${h.snapshotText ? `<details class="hist-diff"><summary>Show what changed from this version to now</summary><div class="diff-box">${diffWords(h.snapshotText, publishedText(cat))}</div></details>` : ''}
+      </div>
+      ${h.snapshotText ? `<span class="restore-link" onclick="restoreVersion('${cat.id}', ${idx})">Restore</span>` : ''}
+    </div>`).join('');
+  } else if(state.secondaryTab==='shared' && shared){
+    const otherIds = shared.usedIn.filter(id=>id!==cat.id);
+    const parts = otherIds.map(id=>{
+      const other = findCat(id);
+      return other ? `<a onclick="selectClass('${other.classId}'); setTimeout(()=>selectCat('${other.id}'),0);">${other.name}</a>` : id;
+    });
+    secPanel = `<div class="shared-block-panel">
+      <div class="editor-shell">
+        <div class="editor-toolbar"><span>Shared block text</span><span class="editor-hint">Editing this updates every category listed below</span></div>
+        <textarea class="editor-textarea" style="min-height:100px;">${shared.text}</textarea>
+      </div>
+      <div class="save-row"><button class="btn sm secondary" onclick="saveSharedBlock('${cat.sharedBlockId}', this)">Save shared block</button><span class="save-status"></span></div>
+      <div class="used-in">Also used in: ${parts.join(', ') || '\u2014'}. Editing here updates the text everywhere it's referenced, immediately.</div>
+    </div>`;
+  }
+
   return `<div class="edit-panel">
-    <div class="edit-title">${cat.name}</div>
-    <div class="edit-traffic">${cat.traffic} tickets in this category</div>
-    <div class="chip-row">
-      <span class="chip on">\u2713 Generalized</span>
-      <span class="chip on">\u2713 Reference answer</span>
-      <span class="source-badge ${badgeClass}">${badgeLabel}</span>
+    <div class="edit-title-row">
+      <div class="edit-title">${cat.name}</div>
+      ${statusPill}
     </div>
-    <div class="legal-note"><b>Law status:</b> ${cat.legalStatement}</div>
-    <div class="edit-body">${cat.text}</div>
-    <div class="entry-btns">
-      <button class="entry-btn" onclick="openAnalysisAI()">4.1 AI Analysis \u2194<span class="sub2">Law vs. reference-answer divergence</span></button>
-      <button class="entry-btn" onclick="openAnalysisManagerForCategory('${cat.id}')">4.2 Agent Analysis \u2194<span class="sub2">Same panel as the scorecard demo</span></button>
+    <div class="edit-traffic">${cat.traffic} tickets in this category</div>
+    ${chipRow}
+    ${chipDetail}
+    ${divergencePointerHtml(cat)}
+    ${managerPatternPointerHtml(cat)}
+    <div class="editor-shell" id="editorShell-${cat.id}">
+      <div class="editor-toolbar">
+        <span>Instruction text</span>
+        <span class="editor-hint">Editable in this demo -- saves in this browser tab only, not to the pipeline export</span>
+      </div>
+      <textarea class="editor-textarea" id="editTextarea-${cat.id}" oninput="onInstructionInput('${cat.id}')">${current}</textarea>
+    </div>
+    <div class="save-row">
+      <button class="btn sm" onclick="saveInstructionDraft('${cat.id}')">Save draft</button>
+      <button class="btn secondary sm" onclick="publishInstructionText('${cat.id}')">Publish</button>
+      <span class="save-status" id="saveStatus-${cat.id}">No unsaved changes</span>
+    </div>
+    ${draftBanner}
+    <div class="entry-btns" style="margin-bottom:16px;">
+      <button class="entry-btn" onclick="openAnalysisAI()">AI Analysis \u2194<span class="sub2">Law vs. reference-answer divergence</span></button>
+      <button class="entry-btn" onclick="openAnalysisManagerForCategory('${cat.id}')">Agent Analysis \u2194<span class="sub2">Same panel as the scorecard demo</span></button>
       <button class="entry-btn" onclick="openTickets('${cat.id}')">\ud83d\udccb Tickets (${cat.traffic}) \u2194<span class="sub2">Real example tickets</span></button>
     </div>
+    ${tabsHtml}
+    <div class="sec-panel">${secPanel}</div>
   </div>`;
 }
+
+const ETALON_STATUS = {}; // catId -> 'confirmed' | 'unconfirmed'; absent = confirmed (this dataset ships with a curated etalon per category)
+function etalonConfirmed(catId){ return ETALON_STATUS[catId] !== 'unconfirmed'; }
+function toggleEtalon(catId){ ETALON_STATUS[catId] = etalonConfirmed(catId) ? 'unconfirmed' : 'confirmed'; render(); }
 
 function aiAnalysisPanelHtml(){
   const cat = findCat(state.catId);
   const badgeClass = cat.sourceType === 'external' ? 'external' : 'internal';
   const badgeLabel = cat.sourceType === 'external' ? 'External regulation' : 'Internal policy';
+  const legalArr = currentLegalStatements(cat) || [];
+  const legalRows = legalArr.length ? legalArr.map((s,i)=>{
+    const verdictClass = s.verdict==='disputed' ? 'neverno' : s.verdict==='unverified' ? 'somnitelno' : 'verno';
+    return `<div class="legal-mini">
+      <span class="verdict ${verdictClass}">${s.verdict.toUpperCase()}</span>
+      <span class="txt">${s.statement}${s.note?`<div class="legal-note" style="margin:4px 0 0; padding:0; background:none;">${s.note}</div>`:''}</span>
+      ${s.verdict!=='confirmed' && s.verdict!=='internal' ? `<button class="btn sm secondary" onclick="confirmLegalStatement('${cat.id}', ${i}); render();">Confirm</button>` : ''}
+    </div>`;
+  }).join('') : `<div class="empty-note">No law statement recorded for this category.</div>`;
+  const confirmed = etalonConfirmed(cat.id);
   return `<div class="col grow standalone ai-panel" id="colAnalysis">
     <div class="ad-header">
-      <div><div class="ad-title">4.1 AI Analysis</div><div class="ad-sub">${cat.name}</div></div>
+      <div><div class="ad-title">AI Analysis</div><div class="ad-sub">${cat.name}</div></div>
       <button class="ad-close" onclick="closeAnalysis()">\u2715</button>
     </div>
     <div class="chip-row">
       <span class="source-badge ${badgeClass}">${badgeLabel}</span>
     </div>
-    <div class="legal-note">${cat.legalStatement}</div>
+    <div class="card">
+      <div class="card-title">Law status</div>
+      ${legalRows}
+    </div>
     <div class="match-row">
       <div class="match-num ${cat.match>=80?'ok':cat.match>=55?'warn':'bad'}" style="color:${cat.match>=80?'var(--ok)':cat.match>=55?'var(--warn)':'var(--bad)'}">${cat.match}%</div>
       <div style="font-size:12.5px; color:var(--text2);">Divergence check: word-overlap between the AI-suggested draft and the confirmed reference answer. Not a legal judgment -- a text-similarity signal that flags when the two have drifted apart.</div>
@@ -1086,7 +2181,11 @@ function aiAnalysisPanelHtml(){
       <div class="compare-item q"><div class="label">Customer question (real, from source data)</div><div class="val">${cat.example.q}</div></div>
       <div class="compare-item"><div class="label">AI-suggested draft</div><div class="val">${cat.example.ai}</div></div>
       <div class="compare-item"><div class="label">Agent's actual reply (real, from source data)</div><div class="val">${cat.example.mgr}</div></div>
-      <div class="compare-item etalon"><div class="label">Confirmed reference answer</div><div class="val">${cat.example.etalon}</div></div>
+      <div class="compare-item etalon"><div class="label">Confirmed reference answer${confirmed ? '' : ' -- unconfirmed'}</div><div class="val">${cat.example.etalon}</div></div>
+    </div>
+    <div class="save-row" style="margin-top:-4px;">
+      <button class="btn sm ${confirmed?'ghost':''}" onclick="toggleEtalon('${cat.id}')">${confirmed ? 'Unconfirm reference answer' : 'Confirm as reference answer'}</button>
+      <span class="save-status">${confirmed ? 'Currently used as the reference answer for this category.' : 'Not currently confirmed -- the "Reference answer" chip on the edit panel will reflect this.'}</span>
     </div>
   </div>`;
 }
@@ -1133,7 +2232,17 @@ function render(){
   let html = '';
   html += alertBannerHtml();
 
-  const hasAnyCase = !!state.catId;
+  // Same mechanic as the original mockup: opening 4.1/4.2/Tickets hides
+  // Classes + Instructions to make room, but keeps the edit panel on
+  // screen -- the analysis panel opens NEXT TO it, not instead of it, so
+  // the instruction text/chips you were just looking at don't disappear.
+  // Two equal columns when an analysis panel is open, three sized columns
+  // otherwise; nothing is ever left rendering into empty grid space.
+  const analysisHtml = state.analysisPanel === 'ai' ? aiAnalysisPanelHtml()
+    : state.analysisPanel === 'manager' ? managerAnalysisPanelHtml()
+    : state.analysisPanel === 'tickets' ? ticketsPanelHtml()
+    : '';
+
   html += `<div class="kb-cols ${state.analysisPanel ? 'collapsed' : ''}" id="kbCols">
     <div class="kb-col ${state.analysisPanel ? 'hide' : ''}">
       <div class="kb-col-head">Classes</div>
@@ -1143,10 +2252,8 @@ function render(){
       <div class="kb-col-head">Instructions</div>
       ${instrListHtml()}
     </div>
-    ${state.analysisPanel === 'ai' ? aiAnalysisPanelHtml()
-      : state.analysisPanel === 'manager' ? managerAnalysisPanelHtml()
-      : state.analysisPanel === 'tickets' ? ticketsPanelHtml()
-      : editPanelHtml()}
+    ${editPanelHtml()}
+    ${analysisHtml}
   </div>`;
 
   document.getElementById('app').innerHTML = html;
