@@ -67,7 +67,7 @@ here shipped in one commit.
 | 6 | `etl/classify_fixed_categories.py` | Incremental classification, `NOT EXISTS` guard against re-classification instability between runs |
 | 7-8 | `sql/07_knowledge_articles_map.sql`, `etl/fill_client_articles_text.py` | Article content, idempotent upsert fill — **bug fix**: a plain `INSERT` here used to crash on rerun |
 | 9-10 | `etl/load_uncategorized_backlog.py`, `etl/finalize_new_categories.py` | New tickets that don't fit → reviewed → 2 new categories promoted, the rest honestly left uncategorized |
-| 11 | `etl/score_agents_by_category.py`, `sql/09_client_profile.sql`, `sql/10_weighted_rollup.sql`, `etl/export_for_thomas.py` | Agent scoring (**n is real classification volume, not invented**), client profile, n-weighted rollup, final CSV export |
+| 11 | `etl/score_agents_by_category.py`, `sql/09_client_profile.sql`, `sql/10_weighted_rollup.sql`, `etl/export.py` | Agent scoring (**n is real classification volume, not invented**), client profile, n-weighted rollup, final CSV export |
 
 ## The scoring methodology (`demo/manager-scorecard-demo.html`)
 
@@ -101,7 +101,7 @@ python3 etl/finalize_new_categories.py
 python3 etl/score_agents_by_category.py
 psql -d orbitdesk -f sql/09_client_profile.sql
 psql -d orbitdesk -f sql/10_weighted_rollup.sql
-python3 etl/export_for_thomas.py
+python3 etl/export.py
 python3 demo/build_demo_data.py   # regenerates demo/gen/*.js from the export
 ```
 
